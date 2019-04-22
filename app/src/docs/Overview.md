@@ -9,7 +9,7 @@ ExecSec is designed to help Executives organize mass scheduling.
     * [Active](#active-transactions)
     * [Inactive](#inactive-transactions)
     * [Stale](#stale-transactions)
-    * [Closed](#close-transactions)
+    * [Closed](#closed-transactions)
 * [Mass Scheduling](#mass-appointment-scheduling)
   * [Name-number matching](#name-number-matching)
   * [Draft Formatters](#draft-formatters)
