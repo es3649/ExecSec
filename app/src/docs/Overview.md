@@ -15,12 +15,13 @@ ExecSec is designed to help Executives organize mass scheduling.
   * [Draft Formatters](#draft-formatters)
 * [Moving an appointment](#moving-an-appointment)
 * [Cancelling an appointment](#cancelling-an-appointment)
+* [Reminders](#reminders)
     
 
 # Overview
 
 It scans incoming text messages and uses natural language processing techniques to assess their intent.
-Based on inferred intent, it takes appropriate actions, [responding to the message](#automation) [and setting appointments](#scheduling-transactions).
+Based on inferred intent, it takes appropriate actions, [responding to the message](#automation) and [setting appointments](#scheduling-transactions).
 It also [reminds](#reminders) individuals of their appointments.
 
 If intent in a message cannot be inferred, the user is notified to handle the message manually.
@@ -34,6 +35,8 @@ Automation is optional, but supported (TODO)
 If automation is enabled, Users will be notified, and able to review automated actions for accuracy.
 If automation is disabled, incoming messages will still be analyzed, and responses will still be generated as usual,
 however, the user will have to authorize all outgoing messages.
+
+Automation may be subdivided into categories, and certain automation modes can be enables/disabled independently.
 
 ## Scheduling transactions
 
@@ -131,3 +134,16 @@ The user must confirm this action.
 If it is confirmed, then the transaction is closed and archived.
 
 An appointment can also be cancelled manually at any time.
+
+# Reminders
+
+Reminders can be enables or disabled by default, and can be set manually at any-time (if not previously set).
+The individual will receive a message after the appointment is set asking if they would like a reminder text.
+If so, they will be prompted for when, and a reminder will be set per the response (TODO constrain this to be reasonable).
+
+If an appointment is re-scheduled, then the reminder, if any, is reset.
+The new reminder time will be before the appointment, and the exact amount of time between the reminder and the appointment
+shall be the exact amount of time that was between the previous reminder and appointment (reminder interval is conserved). 
+
+Reminder messages will be sent automatically, if automation is enabled.
+Otherwise, the user will receive a notification with the option to verify the reminders.
