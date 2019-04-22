@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ExecSec Helper</string>
+
+    <!-- Login Fragment Strings (prefix: 'lf' ) -->
+    <string name="lfUsername">Email</string>
+    <string name="lfPassword">Password</string>
+    <string name="lfLoginButton">Login</string>
+
+    <!-- Top Fragment Strings (prefix: 'tf' ) -->
+
+    <!-- Transaction Count Fragment (prefix: 'tcf' ) -->
+    <string name="tcfTransactionCount">Pending Transactions</string>x
+</resources>
