@@ -1,14 +1,9 @@
 package com.es3649.execsec;
 
-import android.app.FragmentManager;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 import android.widget.Toast;
-
-import java.net.URI;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener {
 
