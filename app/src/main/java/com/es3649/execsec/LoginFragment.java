@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+// TODO clean this all up. It still has all the auto-generated stuff
+// TODO add an option to sign in with google, cause that's dope
+// TODO all an option to sign in with fingerprint. because that's super dope!!
 
 /**
  * A simple {@link Fragment} subclass.

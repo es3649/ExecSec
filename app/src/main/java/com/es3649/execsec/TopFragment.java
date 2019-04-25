@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+// TODO make this look nice
+// TODO this crashed when it rotates, let's actually fix that this time
+// TODO clean up all this auto-generated trash
 
 /**
  * A simple {@link Fragment} subclass.

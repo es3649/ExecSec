@@ -1,14 +1,16 @@
 package com.es3649.execsec;
 
-import android.app.FragmentManager;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import java.net.URI;
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener {
 
@@ -21,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
                 .beginTransaction()
                 .add(R.id.mainFragmentHolder, LoginFragment.newInstance("",""))
                 .commit();
+
+        Iconify.with(new FontAwesomeModule());
+        requestSmsPermission();
     }
 
 
@@ -36,5 +41,22 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
                     }
                 }))
                 .commit();
+
+    }
+
+    /**
+     * Rends a permission request to the screen to read and send text messages.
+     *
+     * I copied this from stack overflow.
+     * https://stackoverflow.com/questions/33347809/android-marshmallow-sms-received-permission
+     */
+    private void requestSmsPermission() {
+        String permission = Manifest.permission.RECEIVE_SMS;
+        int grant = ContextCompat.checkSelfPermission(this, permission);
+        if ( grant != PackageManager.PERMISSION_GRANTED) {
+            String[] permission_list = new String[1];
+            permission_list[0] = permission;
+            ActivityCompat.requestPermissions(this, permission_list, 1);
+        }
     }
 }
