@@ -39,6 +39,7 @@ public class Person {
     }
     public void setNumber(String number) {
         // format the number
+        // TODO we might need to format this to add country codes
         this.number = PhoneNumberUtils.normalizeNumber(number);
         if (!PhoneNumberUtils.isWellFormedSmsAddress(this.getNumber())) {
             Log.e(TAG, String.format("The phone number `%s` is not dialable!",

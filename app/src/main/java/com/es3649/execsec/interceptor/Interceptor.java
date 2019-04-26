@@ -8,13 +8,19 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompatSideChannelService;
 import android.support.v4.app.NotificationManagerCompat;
+import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
 import com.es3649.execsec.R;
+import com.es3649.execsec.dao.DB_Proxy;
+import com.es3649.execsec.nlp.NLPIntent;
+import com.es3649.execsec.nlp.Processor;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
+
+import java.util.List;
 
 /**
  * The Interceptor has a broadcast receiver for incoming SMS messages.
@@ -54,18 +60,37 @@ public class Interceptor extends BroadcastReceiver {
             }
         }
 
-        pushNotification(context, msg_body);
-        // TODO parse the message body
+        if (canITouchThis(context)) {
+            // TODO parse the message body
+            Processor nlpProcessor = new Processor();
+            List<NLPIntent> intents = nlpProcessor.process(msg_body);
+
+            // no perceived intent
+            if (intents.isEmpty()) return;
+
+            we//TODO we need a conversation manager package of some kind
+            pushNotification(context, msg_body);
+        }
     }
 
     private void pushNotification(Context ctx, String msg) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx, NotificationCompatSideChannelService.NOTIFICATION_SERVICE)
                 .setSmallIcon(R.drawable.envelope)
-                .setContentTitle("Text Message!")
+                .setContentTitle(PhoneNumberUtils.normalizeNumber(sender))
                 .setContentText(msg)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(ctx);
         notificationManager.notify(0, builder.build());
+    }
+
+    /**
+     * looks up the sender in the DB to see if we know them. If we know them, we can mess, if not,
+     * then forget about it.
+     * @return a boolean indicating DB containment
+     */
+    private boolean canITouchThis(Context ctx) {
+        DB_Proxy db = new DB_Proxy(ctx);
+        return !(null == db.lookupPerson(sender));
     }
 }
