@@ -1,4 +1,4 @@
-package com.es3649.execsec.dao.model;
+package com.es3649.execsec.data.model;
 
 import java.util.Date;
 

@@ -1,18 +1,27 @@
 package com.es3649.execsec;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.es3649.execsec.model.Model;
+import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener {
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +37,16 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         requestSmsPermission();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        invalidateOptionsMenu();
+    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
         Toast.makeText(this, "Stuff", Toast.LENGTH_SHORT).show();
+        invalidateOptionsMenu();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.mainFragmentHolder, TransactionCountFragment.newInstance(new TransactionCountFragment.Listener() {
@@ -41,6 +56,37 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
                     }
                 }))
                 .commit();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        if (Model.isLoggedIn()) {
+            // inflate the options menu
+            getMenuInflater().inflate(R.menu.top_menu, menu);
+
+            // add the settings button
+            menu.findItem(R.id.menuTopSettingsButton).setIcon(
+                    new IconDrawable(this, FontAwesomeIcons.fa_cogs)
+                    .colorRes(R.color.colorPrimaryLight)
+                    .actionBarSize());
+        }
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()) {
+        case R.id.menuTopSettingsButton:
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        default:
+            Log.e(TAG, "bad menu choice");
+            return super.onOptionsItemSelected(item);
+        }
 
     }
 

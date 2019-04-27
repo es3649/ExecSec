@@ -1,4 +1,4 @@
-package com.es3649.execsec.dao;
+package com.es3649.execsec.data.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.es3649.execsec.dao.model.Person;
-import com.es3649.execsec.dao.model.ScheduleTransaction;
+import com.es3649.execsec.data.model.Person;
+import com.es3649.execsec.data.model.ScheduleTransaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,8 @@ public class DB_Proxy {
         SQLiteDatabase db = new DB_Helper(context).getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(DB_Helper.P_NAME_COL_ID, p.getName());
+        values.put(DB_Helper.P_GIVEN_NAME_COL_ID, p.getName());
+        values.put(DB_Helper.P_SURNAME_COL_ID, p.getSurname());
         values.put(DB_Helper.P_NUMBER_COL_ID, p.getNumber());
 
         db.insert(DB_Helper.PERSON_TABLE_NAME, null, values);
@@ -51,7 +52,8 @@ public class DB_Proxy {
 
     public Person lookupPerson(String phoneNumber) {
         Log.d(TAG, "looking for " + phoneNumber);
-        String[] projection = {DB_Helper.P_NUMBER_COL_ID, DB_Helper.P_NAME_COL_ID};
+        String[] projection = {DB_Helper.P_NUMBER_COL_ID,
+                DB_Helper.P_GIVEN_NAME_COL_ID, DB_Helper.P_SURNAME_COL_ID};
 
         String selection = DB_Helper.P_NUMBER_COL_ID + " = ?";
         String[] selectionArgs = {"%" + phoneNumber + "%"};
@@ -66,7 +68,7 @@ public class DB_Proxy {
 
         // the person takes the arguments (name, number)
         // the database column order is number, name
-        Person p = new Person(cursor.getString(1), cursor.getString(0));
+        Person p = new Person(cursor.getString(2), cursor.getString(0), cursor.getString(1));
         cursor.close();
         return p;
     }

@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.es3649.execsec.dao.model.Conversation;
+import com.es3649.execsec.data.model.Conversation;
 
 /**
  * Defines view holders and adapts them for the ConversationViewerActivity's RecyclerView

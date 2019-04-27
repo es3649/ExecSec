@@ -1,5 +1,7 @@
 package com.es3649.execsec.model;
 
+import java.util.Locale;
+
 /**
  * A Model singleton for statically storing application data.
  *
@@ -24,7 +26,7 @@ public class Model {
     }
 
     public static boolean isLoggedIn() {
-        return false;
+        return true;
     }
 
     public static void  login() {}

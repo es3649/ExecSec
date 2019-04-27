@@ -1,4 +1,4 @@
-package com.es3649.execsec.dao;
+package com.es3649.execsec.data.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,7 +16,8 @@ class DB_Helper extends SQLiteOpenHelper {
 
     static final String PERSON_TABLE_NAME = "tbl_people";
     static final String P_NUMBER_COL_ID = "p_number";
-    static final String P_NAME_COL_ID = "p_name";
+    static final String P_GIVEN_NAME_COL_ID = "p_given_name";
+    static final String P_SURNAME_COL_ID = "p_surname";
 
     static final String TRANSACTION_TABLE_NAME = "tbl_transactions";
     static final String T_NUMBER_PID = "t_transaction_id";
@@ -43,8 +44,9 @@ class DB_Helper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(
                 String.format("CREATE TABLE %s (" +
                         "%s TEXT NOT NULL PRIMARY KEY," +
+                        "%s TEXT NOT NULL," +
                         "%s TEXT NOT NULL)", PERSON_TABLE_NAME,
-                        P_NUMBER_COL_ID, P_NAME_COL_ID)
+                        P_NUMBER_COL_ID, P_GIVEN_NAME_COL_ID, P_SURNAME_COL_ID)
         );
 
         // construct current transaction table

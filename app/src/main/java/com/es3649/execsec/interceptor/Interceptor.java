@@ -1,6 +1,5 @@
 package com.es3649.execsec.interceptor;
 
-import android.app.NotificationChannel;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +12,9 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 
 import com.es3649.execsec.R;
-import com.es3649.execsec.dao.DB_Proxy;
+import com.es3649.execsec.data.database.DB_Proxy;
 import com.es3649.execsec.nlp.NLPIntent;
 import com.es3649.execsec.nlp.Processor;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.Iconify;
-import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import java.util.List;
 
@@ -68,7 +64,7 @@ public class Interceptor extends BroadcastReceiver {
             // no perceived intent
             if (intents.isEmpty()) return;
 
-            we//TODO we need a conversation manager package of some kind
+            //TODO we need a conversation manager package of some kind
             pushNotification(context, msg_body);
         }
     }

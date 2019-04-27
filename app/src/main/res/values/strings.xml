@@ -2,12 +2,28 @@
     <string name="app_name">ExecSec Helper</string>
 
     <!-- Login Fragment Strings (prefix: 'lf' ) -->
-    <string name="lfUsername">Email</string>
-    <string name="lfPassword">Password</string>
+    <string name="lfUsername">Email:</string>
+    <string name="lfPassword">Password:</string>
     <string name="lfLoginButton">Login</string>
 
     <!-- Top Fragment Strings (prefix: 'tf' ) -->
 
     <!-- Transaction Count Fragment (prefix: 'tcf' ) -->
-    <string name="tcfTransactionCount">Pending Transactions</string>x
+    <string name="tcfTransactionCount">Pending Transactions</string>
+
+    <!-- LoaderActivity strings (prefix: 'la' ) -->
+    <string name="laIPAddress">IP Address:</string>
+    <string name="laPort">Port Number:</string>
+    <string name="laAuthentication">Authentication:</string>
+    <string name="laLoad">Load</string>
+    <string name="laLoading">Loading…</string>
+    <string name="laLoadStatus">Successfully loaded %d entries.\nFailed to load %d entries.\nTotal entries: %d</string>
+
+    <!-- SettingsActivity strings (prefix: 'set' ) -->
+    <string name="setLoadData">Load Data from server</string>
+    <string name="setLabel">Settings</string>
+
+    <!-- Menu item string (prefix: 'menu' ) -->
+    <string name="menuTopSettingsButton">Settings</string>
+
 </resources>
