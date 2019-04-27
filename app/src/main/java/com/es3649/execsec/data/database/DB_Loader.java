@@ -30,23 +30,24 @@ public class DB_Loader {
      * <code>surname,given names,phone-number</code>
      *
      * @param csvData an input stream containing people in csv data
-     * @param failures a string of entries (verbatim) which were not parsable
-     * @return the number of failures
+     * @return a loadResult databall with the stuff one might want to know about
      */
-    public int load(InputStream csvData, String failures) throws IOException {
+    public LoadResult load(InputStream csvData) throws IOException {
         Scanner scanner = new Scanner(csvData);
         StringBuilder errLines = new StringBuilder();
         DB_Proxy db = new DB_Proxy(ctx);
         int counter = 0;
+        int failCounter = 0;
 
         while (scanner.hasNext()) {
+            counter++;
             String line = scanner.nextLine();
             String[] components = line.split(",");
 
             if (components.length != 3) {
                 errLines.append(line);
                 errLines.append("\n");
-                counter++;
+                failCounter++;
                 continue;
             }
 
@@ -57,7 +58,31 @@ public class DB_Loader {
             db.stashPerson(p);
         }
 
-        failures = errLines.toString();
-        return counter;
+        return new LoadResult(counter, failCounter, errLines.toString());
+    }
+
+    /**
+     * This is honestly just a little dataBall for returning lots of things at once
+     */
+    public class LoadResult {
+        /**
+         * @param total the total number of entries which were to be loaded
+         * @param failed the number of entries which failed to load
+         * @param error the verbatim string of entries which failed
+         */
+        public LoadResult(int total, int failed, String error) {
+            this.total = total;
+            this.failed = failed;
+            this.error = error;
+        }
+
+        private int total;
+        private int failed;
+        private String error;
+
+        public int getTotal() {return total;}
+        public int getFailed() {return failed;}
+        public String getError() {return error;}
+        public int getSuccess() {return total - failed;}
     }
 }

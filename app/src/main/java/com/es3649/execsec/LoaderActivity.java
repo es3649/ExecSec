@@ -12,6 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.es3649.execsec.data.database.DB_Loader;
+import com.es3649.execsec.serverproxy.ServerAccessException;
+import com.es3649.execsec.serverproxy.ServerProxy;
+
+import java.io.IOException;
 import java.util.Locale;
 
 public class LoaderActivity extends AppCompatActivity {
@@ -98,9 +103,14 @@ public class LoaderActivity extends AppCompatActivity {
      *
      * @param result the results directly from the asyncTask
      */
-    private void setResultText(LoadResult result) {
+    private void setResultText(DB_Loader.LoadResult result) {
         findViewById(R.id.laStatusTextLinLay).setVisibility(View.VISIBLE);
         TextView statusTextView = findViewById(R.id.laStatusMessageText);
+
+        if (result == null) {
+            statusTextView.setText(R.string.laLoadError);
+            return;
+        }
 
         // build the response messages and set it
         statusTextView.setText(String.format(Locale.getDefault(),
@@ -115,34 +125,10 @@ public class LoaderActivity extends AppCompatActivity {
     }
 
     /**
-     * This is honestly just a little dataBall for the Async Task to use
+     * An async task which makes a call to the server to get the data, then
+     * puts everything into the database
      */
-    private class LoadResult {
-        /**
-         * @param total the total number of entries which were to be loaded
-         * @param failed the number of entries which failed to load
-         * @param error the verbatim string of entries which failed
-         */
-        LoadResult(int total, int failed, String error) {
-            this.total = total;
-            this.failed = failed;
-            this.error = error;
-        }
-
-        private int total;
-        private int failed;
-        private String error;
-
-        int getTotal() {return total;}
-        int getFailed() {return failed;}
-        String getError() {return error;}
-        int getSuccess() {return total - failed;}
-    }
-
-    /**
-     *
-     */
-    class LoadDataAsync extends AsyncTask<String, Integer, LoadResult> {
+    class LoadDataAsync extends AsyncTask<String, Integer, DB_Loader.LoadResult> {
         private static final String TAG = "LoadDataAsync";
 
         @Override
@@ -151,7 +137,7 @@ public class LoaderActivity extends AppCompatActivity {
         }
 
         @Override
-        protected LoadResult doInBackground(String... strings) {
+        protected DB_Loader.LoadResult doInBackground(String... strings) {
             // make sure that we only got exactly 3 strings
             if (strings.length != 3) {
                 Log.e(TAG, String.format("Expected 3 arguments, got %d", strings.length));
@@ -160,9 +146,17 @@ public class LoaderActivity extends AppCompatActivity {
 
             // make an API call
             try {
-                ServerProxy s = new ServerProxy();
-            } catch {
+                ServerProxy sprox = new ServerProxy();
+                DB_Loader dbLoader = new DB_Loader(getApplicationContext());
+                sprox.setAPI(strings[0], strings[1]);
+                return dbLoader.load(sprox.getCSVData(strings[2]));
+            } catch (ServerAccessException ex) {
+                // toast to the failure and be done
+                Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
 
+            } catch (IOException ex) {
+                // log this, it's probably serious
+                Log.e(TAG, "Error on DB access", ex);
             }
 
             return null;
@@ -174,7 +168,7 @@ public class LoaderActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(LoadResult result) {
+        protected void onPostExecute(DB_Loader.LoadResult result) {
             finishLoadUI();
             setResultText(result);
         }

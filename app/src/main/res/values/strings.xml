@@ -18,6 +18,7 @@
     <string name="laLoad">Load</string>
     <string name="laLoading">Loading…</string>
     <string name="laLoadStatus">Successfully loaded %d entries.\nFailed to load %d entries.\nTotal entries: %d</string>
+    <string name="laLoadError">Error loading data: %s</string>
 
     <!-- SettingsActivity strings (prefix: 'set' ) -->
     <string name="setLoadData">Load Data from server</string>
