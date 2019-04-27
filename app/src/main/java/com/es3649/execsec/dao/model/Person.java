@@ -1,4 +1,4 @@
-package com.es3649.execsec.dao;
+package com.es3649.execsec.dao.model;
 
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
@@ -22,7 +22,7 @@ public class Person {
         this.setNumber(phoneNumber);
     }
 
-    private static final String TAG = "dao.Person";
+    private static final String TAG = "dao.model.Person";
     private String name;
     private String number;
 
