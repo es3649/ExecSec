@@ -84,12 +84,14 @@ public class ServerProxy {
             HttpURLConnection http = getHttpURLConnection("/");
 
             http.setRequestMethod(GET_METHOD);
-            http.setDoOutput(true);
+            http.setDoOutput(false);
+            http.setDoInput(true);
             http.addRequestProperty(AUTHENTICATION_HEADER, authentication);
 
             http.connect();
 
             if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                Log.i(TAG, "Successful request");
                 return http.getInputStream();
             }
 

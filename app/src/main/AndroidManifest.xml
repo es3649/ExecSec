@@ -36,7 +36,10 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".LoaderActivity" />
+        <activity android:name=".LoaderActivity"
+            android:label="@string/laLabel"
+            android:parentActivityName=".SettingsActivity"/>
+
         <activity android:name=".SettingsActivity"
             android:label="@string/setLabel"/>
     </application>

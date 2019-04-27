@@ -16,32 +16,37 @@
             android:text="@string/laIPAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"/>
+            android:layout_gravity="end"
+            android:labelFor="@id/laIPEditText"/>
 
         <EditText android:id="@+id/laIPEditText"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:ems="10"/>
+            android:inputType="text"
+            android:ems="10"
+            android:text="@string/laDefaultIP"/>
 
         <TextView style="@style/TextDark"
             android:text="@string/laPort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:labelFor="@+id/laPortEditText"/>
+            android:labelFor="@id/laPortEditText"/>
         <!-- not sure what labelFor does -->
 
         <EditText android:id="@+id/laPortEditText"
             android:inputType="number"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:ems="10"/>
+            android:ems="10"
+            android:text="@string/laDefaultPort"/>
 
         <TextView style="@style/TextDark"
             android:text="@string/laAuthentication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"/>
+            android:layout_gravity="end"
+            android:labelFor="@id/laAuthenticationEditText"/>
 
         <EditText android:id="@+id/laAuthenticationEditText"
             android:inputType="textPassword"

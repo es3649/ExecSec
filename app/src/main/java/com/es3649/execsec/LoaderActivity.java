@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.es3649.execsec.data.database.DB_Loader;
+import com.es3649.execsec.data.database.LoadResult;
 import com.es3649.execsec.serverproxy.ServerAccessException;
 import com.es3649.execsec.serverproxy.ServerProxy;
 
@@ -103,12 +104,16 @@ public class LoaderActivity extends AppCompatActivity {
      *
      * @param result the results directly from the asyncTask
      */
-    private void setResultText(DB_Loader.LoadResult result) {
+    private void setResultText(LoadResult result) {
         findViewById(R.id.laStatusTextLinLay).setVisibility(View.VISIBLE);
         TextView statusTextView = findViewById(R.id.laStatusMessageText);
 
         if (result == null) {
             statusTextView.setText(R.string.laLoadError);
+            return;
+        } else if (result.getTotal() == 0) {
+            Toast.makeText(getApplicationContext(),
+                    result.getError(), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -117,7 +122,7 @@ public class LoaderActivity extends AppCompatActivity {
                 getString(R.string.laLoadStatus), result.getSuccess(),
                 result.getFailed(), result.getTotal()));
 
-        if (result.getFailed() != 0 && result.getTotal() != 0) {
+        if (result.getFailed() != 0) {
             TextView errorTextView = findViewById(R.id.laErrorTextView);
             errorTextView.setText(result.getError());
             errorTextView.setVisibility(View.VISIBLE);
@@ -128,8 +133,16 @@ public class LoaderActivity extends AppCompatActivity {
      * An async task which makes a call to the server to get the data, then
      * puts everything into the database
      */
-    class LoadDataAsync extends AsyncTask<String, Integer, DB_Loader.LoadResult> {
+    class LoadDataAsync extends AsyncTask<String, Integer, LoadResult> {
         private static final String TAG = "LoadDataAsync";
+
+        private String errorMsg = null;
+
+        public String getErrorMsg() {
+            String err = errorMsg;
+            errorMsg = null;
+            return err;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -137,11 +150,11 @@ public class LoaderActivity extends AppCompatActivity {
         }
 
         @Override
-        protected DB_Loader.LoadResult doInBackground(String... strings) {
+        protected LoadResult doInBackground(String... strings) {
             // make sure that we only got exactly 3 strings
             if (strings.length != 3) {
                 Log.e(TAG, String.format("Expected 3 arguments, got %d", strings.length));
-                Toast.makeText(getApplicationContext(), "Expected 3 arguments", Toast.LENGTH_SHORT).show();
+                return null;
             }
 
             // make an API call
@@ -152,7 +165,7 @@ public class LoaderActivity extends AppCompatActivity {
                 return dbLoader.load(sprox.getCSVData(strings[2]));
             } catch (ServerAccessException ex) {
                 // toast to the failure and be done
-                Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                return new LoadResult(0, 0, ex.getMessage());
 
             } catch (IOException ex) {
                 // log this, it's probably serious
@@ -168,7 +181,7 @@ public class LoaderActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(DB_Loader.LoadResult result) {
+        protected void onPostExecute(LoadResult result) {
             finishLoadUI();
             setResultText(result);
         }
