@@ -8,3 +8,6 @@
 /build
 /captures
 .externalNativeBuild
+csvserver/src/main/java/com/es3649/csvserver/password
+csvserver/src/main/java/com/es3649/csvserver/file.csv
+*.class

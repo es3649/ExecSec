@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 class DB_Helper extends SQLiteOpenHelper {
-    private static final int VERSION = 0;
+    private static final int VERSION = 4;
     static final String DB_NAME = "WARD_PHONES";
 
     static final String PERSON_TABLE_NAME = "tbl_people";
@@ -23,9 +23,9 @@ class DB_Helper extends SQLiteOpenHelper {
     static final String T_BLOB_COLUMN_ID = "t_json_blob";
 
     static final String ARCHIVE_TABLE_NAME = "tbl_archives";
-    static final String A_PKEY_ID = "t_pkey";
-    static final String A_NUMBER_COLUMN_ID = "t_number";
-    static final String A_BLOB_COL_ID = "t_json_blob";
+    static final String A_PKEY_ID = "a_pkey";
+    static final String A_NUMBER_COLUMN_ID = "a_number";
+    static final String A_BLOB_COL_ID = "a_json_blob";
 
 
     DB_Helper(Context ctx) {
@@ -35,6 +35,10 @@ class DB_Helper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // TODO look for something less injectable
+        // TODO delete these later:
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PERSON_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TRANSACTION_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ARCHIVE_TABLE_NAME);
         // construct person table
         sqLiteDatabase.execSQL(
                 String.format("CREATE TABLE %s (" +
@@ -54,7 +58,7 @@ class DB_Helper extends SQLiteOpenHelper {
         // construct archive table
         sqLiteDatabase.execSQL(
                 String.format("CREATE TABLE %s (" +
-                                "%s INT NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                                "%s INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                                 "%s TEXT NOT NULL," +
                                 "%s TEXT NOT NULL)", ARCHIVE_TABLE_NAME,
                         A_PKEY_ID, A_NUMBER_COLUMN_ID, A_BLOB_COL_ID)

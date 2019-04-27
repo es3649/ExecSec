@@ -53,7 +53,7 @@ public class DB_Proxy {
         Log.d(TAG, "looking for " + phoneNumber);
         String[] projection = {DB_Helper.P_NUMBER_COL_ID, DB_Helper.P_NAME_COL_ID};
 
-        String selection = DB_Helper.A_NUMBER_COLUMN_ID + " = ?";
+        String selection = DB_Helper.P_NUMBER_COL_ID + " = ?";
         String[] selectionArgs = {"%" + phoneNumber + "%"};
 
         SQLiteDatabase db = new DB_Helper(context).getReadableDatabase();
