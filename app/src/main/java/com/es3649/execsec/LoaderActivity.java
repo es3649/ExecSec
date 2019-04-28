@@ -22,6 +22,7 @@ import java.util.Locale;
 
 public class LoaderActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoaderActivity";
     private EditText IPEditText;
     private EditText portEditText;
     private EditText authEditText;
@@ -126,6 +127,7 @@ public class LoaderActivity extends AppCompatActivity {
             TextView errorTextView = findViewById(R.id.laErrorTextView);
             errorTextView.setText(result.getError());
             errorTextView.setVisibility(View.VISIBLE);
+            Log.d(TAG, "laErrorTextView should be visible");
         }
     }
 
@@ -135,14 +137,6 @@ public class LoaderActivity extends AppCompatActivity {
      */
     class LoadDataAsync extends AsyncTask<String, Integer, LoadResult> {
         private static final String TAG = "LoadDataAsync";
-
-        private String errorMsg = null;
-
-        public String getErrorMsg() {
-            String err = errorMsg;
-            errorMsg = null;
-            return err;
-        }
 
         @Override
         protected void onPreExecute() {

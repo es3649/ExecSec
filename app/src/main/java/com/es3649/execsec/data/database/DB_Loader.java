@@ -1,6 +1,7 @@
 package com.es3649.execsec.data.database;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.es3649.execsec.data.model.Person;
 
@@ -20,6 +21,7 @@ public class DB_Loader {
         this.ctx = ctx;
     }
 
+    private static final String TAG = "DB_Loader";
     private Context ctx;
 
     /**
@@ -48,6 +50,7 @@ public class DB_Loader {
                 errLines.append(line);
                 errLines.append("\n");
                 failCounter++;
+                Log.e(TAG, String.format("Failed to load line: '%s'", line));
                 continue;
             }
 

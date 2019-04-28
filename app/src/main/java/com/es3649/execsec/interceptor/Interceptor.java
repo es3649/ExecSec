@@ -40,16 +40,18 @@ public class Interceptor extends BroadcastReceiver {
         if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")){
             Bundle b = intent.getExtras();
             SmsMessage[] msgs;
+            StringBuilder sb = new StringBuilder();
             if (b != null) {
                 try {
                     Object[] pdus = (Object[]) b.get("pdus");
                     msgs = new SmsMessage[pdus.length];
                     for (int i = 0; i < msgs.length; i++) {
                         msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
-                        msg_body += msgs[i].getMessageBody();
+                        sb.append(msgs[i].getMessageBody());
                     }
 
                     sender = msgs[0].getOriginatingAddress();
+                    msg_body = sb.toString();
                 } catch (Exception ex) {
                     Log.e(TAG, "Failed to get messages", ex);
                 }
@@ -62,7 +64,7 @@ public class Interceptor extends BroadcastReceiver {
             List<NLPIntent> intents = nlpProcessor.process(msg_body);
 
             // no perceived intent
-            if (intents.isEmpty()) return;
+//            if (intents.isEmpty()) return;
 
             //TODO we need a conversation manager package of some kind
             pushNotification(context, msg_body);

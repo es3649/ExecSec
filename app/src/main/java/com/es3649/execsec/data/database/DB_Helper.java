@@ -12,18 +12,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 class DB_Helper extends SQLiteOpenHelper {
     private static final int VERSION = 4;
-    static final String DB_NAME = "WARD_PHONES";
+    static final String DB_NAME = "com_es3649_execsec_WARD_PHONES";
 
-    static final String PERSON_TABLE_NAME = "tbl_people";
+    static final String PERSON_TABLE_NAME = "com_es3649_execsec_tbl_people";
     static final String P_NUMBER_COL_ID = "p_number";
     static final String P_GIVEN_NAME_COL_ID = "p_given_name";
     static final String P_SURNAME_COL_ID = "p_surname";
 
-    static final String TRANSACTION_TABLE_NAME = "tbl_transactions";
+    static final String TRANSACTION_TABLE_NAME = "com_es3649_execsec_tbl_transactions";
     static final String T_NUMBER_PID = "t_transaction_id";
     static final String T_BLOB_COLUMN_ID = "t_json_blob";
 
-    static final String ARCHIVE_TABLE_NAME = "tbl_archives";
+    static final String ARCHIVE_TABLE_NAME = "com_es3649_execsec_tbl_archives";
     static final String A_PKEY_ID = "a_pkey";
     static final String A_NUMBER_COLUMN_ID = "a_number";
     static final String A_BLOB_COL_ID = "a_json_blob";

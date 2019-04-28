@@ -56,7 +56,7 @@ public class DB_Proxy {
                 DB_Helper.P_GIVEN_NAME_COL_ID, DB_Helper.P_SURNAME_COL_ID};
 
         String selection = DB_Helper.P_NUMBER_COL_ID + " = ?";
-        String[] selectionArgs = {"%" + phoneNumber + "%"};
+        String[] selectionArgs = {phoneNumber};
 
         SQLiteDatabase db = new DB_Helper(context).getReadableDatabase();
 
@@ -64,13 +64,29 @@ public class DB_Proxy {
                 selection, selectionArgs, null, null, null);
 
         if (cursor.getCount() > 1) Log.e(TAG, "Found multiple person DB entries for "+ phoneNumber);
-        else if (cursor.getCount() == 0) return null;
+        else if (cursor.getCount() == 0) {
+            Log.d(TAG, "Person not found");
+            return null;
+        }
 
         // the person takes the arguments (name, number)
         // the database column order is number, name
+        cursor.moveToNext();
         Person p = new Person(cursor.getString(2), cursor.getString(0), cursor.getString(1));
         cursor.close();
+        Log.d(TAG, "Found person");
         return p;
+    }
+
+    /**
+     * deletes all the people in the peopleDB.
+     * @return the number of deleted records
+     */
+    public int deletePeople() {
+        Log.i(TAG, "Deleting people");
+
+        SQLiteDatabase db = new DB_Helper(context).getWritableDatabase();
+        return db.delete(DB_Helper.PERSON_TABLE_NAME, null, null);
     }
 
     /**
@@ -127,7 +143,7 @@ public class DB_Proxy {
         values.put(DB_Helper.T_BLOB_COLUMN_ID, st.serialize());
 
         String[] whereArgs = new String[1];
-        whereArgs[1] = "%" + phoneNumber + "%";
+        whereArgs[1] = phoneNumber;
 
         db.update(DB_Helper.TRANSACTION_TABLE_NAME, values, whereClause, whereArgs);
     }
@@ -149,7 +165,7 @@ public class DB_Proxy {
         String[] projection = {DB_Helper.T_BLOB_COLUMN_ID};
 
         String selection = DB_Helper.T_NUMBER_PID + " = ?";
-        String[] selectionArgs = {"%" + phoneNumber + "%"};
+        String[] selectionArgs = {phoneNumber};
 
         SQLiteDatabase db = new DB_Helper(context).getReadableDatabase();
 

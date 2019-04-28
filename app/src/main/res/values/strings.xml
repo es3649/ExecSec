@@ -31,8 +31,12 @@
 
 
     <!-- SettingsActivity strings (prefix: 'set' ) -->
-    <string name="setLoadData">Load Data from server</string>
     <string name="setLabel">Settings</string>
+    <string name="setLoadData">Load Data from server</string>
+    <string name="setClearContacts">Clear contacts</string>
+    <string name="setSafety">Safety</string>
+
+    <string name="setRecordsCleared">Deleted %d records</string>
 
 
     <!-- Menu item string (prefix: 'menu' ) -->

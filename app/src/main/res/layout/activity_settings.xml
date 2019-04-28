@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/colorPrimaryLight"
+            android:background="@color/colorPrimaryLighter"
             android:layout_marginTop="5dp">
 
             <TextView
@@ -24,6 +24,43 @@
                 android:layout_height="wrap_content"
                 style="@style/TextDark"
                 android:text="@string/setLoadData"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimaryDark" />
+
+        <LinearLayout
+            android:id="@+id/setClearDBLinLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimaryLighter"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/TextDark"
+                android:text="@string/setClearContacts"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextDark"
+                android:text="@string/setSafety"
+                android:labelFor="@id/setClearDBSafetySwitch"
+                android:layout_gravity="end|center_vertical"/>
+
+            <Switch
+                android:id="@+id/setClearDBSafetySwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:checked="false"/>
 
         </LinearLayout>
 
