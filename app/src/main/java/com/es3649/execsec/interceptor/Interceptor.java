@@ -1,6 +1,5 @@
 package com.es3649.execsec.interceptor;
 
-import android.app.NotificationChannel;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +12,9 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 
 import com.es3649.execsec.R;
-import com.es3649.execsec.dao.DB_Proxy;
+import com.es3649.execsec.data.database.DB_Proxy;
 import com.es3649.execsec.nlp.NLPIntent;
 import com.es3649.execsec.nlp.Processor;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.Iconify;
-import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import java.util.List;
 
@@ -44,16 +40,18 @@ public class Interceptor extends BroadcastReceiver {
         if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")){
             Bundle b = intent.getExtras();
             SmsMessage[] msgs;
+            StringBuilder sb = new StringBuilder();
             if (b != null) {
                 try {
                     Object[] pdus = (Object[]) b.get("pdus");
                     msgs = new SmsMessage[pdus.length];
                     for (int i = 0; i < msgs.length; i++) {
                         msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
-                        msg_body += msgs[i].getMessageBody();
+                        sb.append(msgs[i].getMessageBody());
                     }
 
                     sender = msgs[0].getOriginatingAddress();
+                    msg_body = sb.toString();
                 } catch (Exception ex) {
                     Log.e(TAG, "Failed to get messages", ex);
                 }
@@ -66,9 +64,9 @@ public class Interceptor extends BroadcastReceiver {
             List<NLPIntent> intents = nlpProcessor.process(msg_body);
 
             // no perceived intent
-            if (intents.isEmpty()) return;
+//            if (intents.isEmpty()) return;
 
-            we//TODO we need a conversation manager package of some kind
+            //TODO we need a conversation manager package of some kind
             pushNotification(context, msg_body);
         }
     }

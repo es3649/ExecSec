@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- theme generated with coolors.co -->
+    <color name="colorPrimaryLighter">#BCE0E0</color>
     <color name="colorPrimaryLight">#5C80BC</color>
     <color name="colorPrimary">#4D5061</color>
     <color name="colorPrimaryDark">#3D3B30</color>
     <color name="colorAccent">#E7E247</color>
     <color name="colorAccentLight">#E9EDDE</color>
+    <color name="colorDanger">#FF2834</color>
 
     <!-- text style color -->
-    <color name="colorTextDark">@color/colorPrimary</color>
+    <color name="colorTextDark">@color/colorPrimaryDark</color>
     <color name="colorTextLight">@color/colorAccentLight</color>
 
     <!-- absolutes -->

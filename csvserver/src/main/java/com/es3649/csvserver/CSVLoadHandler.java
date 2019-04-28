@@ -42,6 +42,7 @@ class CSVLoadHandler implements HttpHandler {
         CSVServer.logger.log(Level.INFO, "Event request URI is: " + exchange.getRequestURI().toString());
 
         // verify proper request method
+        CSVServer.logger.log(Level.FINEST, "Method is: " + exchange.getRequestMethod());
         if (!exchange.getRequestMethod().equalsIgnoreCase(REQUEST_METHOD)) {
             CSVServer.logger.log(Level.INFO, "Failed for bad request (405)");
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_METHOD, 0);

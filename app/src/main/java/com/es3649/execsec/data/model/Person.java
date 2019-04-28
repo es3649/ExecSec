@@ -1,4 +1,4 @@
-package com.es3649.execsec.dao.model;
+package com.es3649.execsec.data.model;
 
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
@@ -11,19 +11,24 @@ import android.util.Log;
  */
 
 public class Person {
+    // TODO internationalize this, publish it as a setting
+    private static final String US_COUNTRY_CODE = "US";
 
     /**
      * Constructs a new person object.
-     * @param name the person's name
+     * @param givenName the person's given name
+     * @param surname the person's surname
      * @param phoneNumber the person's phone number
      */
-    public Person(String name, String phoneNumber) {
-        this.setName(name);
+    public Person(String givenName, String surname, String phoneNumber) {
+        this.setName(givenName);
+        this.setSurname(surname);
         this.setNumber(phoneNumber);
     }
 
     private static final String TAG = "dao.model.Person";
     private String name;
+    private String surname;
     private String number;
 
 
@@ -34,13 +39,20 @@ public class Person {
     public void setName(String name) {
         this.name = name;
     }
+    public String getSurname() {
+        return surname;
+    }
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
     public String getNumber() {
         return number;
     }
     public void setNumber(String number) {
         // format the number
-        // TODO we might need to format this to add country codes
-        this.number = PhoneNumberUtils.normalizeNumber(number);
+//        Log.d(TAG, "Number: " + number);
+        this.number = PhoneNumberUtils.formatNumberToE164(number, US_COUNTRY_CODE);
+//        Log.d(TAG, "After ToE164: " + this.number);
         if (!PhoneNumberUtils.isWellFormedSmsAddress(this.getNumber())) {
             Log.e(TAG, String.format("The phone number `%s` is not dialable!",
                     this.getNumber()));
