@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.es3649.execsec.R;
 import com.es3649.execsec.data.database.DB_Proxy;
+import com.es3649.execsec.data.model.Person;
 import com.es3649.execsec.nlp.NLPIntent;
 import com.es3649.execsec.nlp.Processor;
 
@@ -58,7 +59,8 @@ public class Interceptor extends BroadcastReceiver {
             }
         }
 
-        if (canITouchThis(context)) {
+        Person p = whoIsThis(context);
+        if (p != null) {
             // TODO parse the message body
             Processor nlpProcessor = new Processor();
             List<NLPIntent> intents = nlpProcessor.process(msg_body);
@@ -67,15 +69,15 @@ public class Interceptor extends BroadcastReceiver {
 //            if (intents.isEmpty()) return;
 
             //TODO we need a conversation manager package of some kind
-            pushNotification(context, msg_body);
+            pushNotification(context, p);
         }
     }
 
-    private void pushNotification(Context ctx, String msg) {
+    private void pushNotification(Context ctx, Person p) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx, NotificationCompatSideChannelService.NOTIFICATION_SERVICE)
                 .setSmallIcon(R.drawable.envelope)
-                .setContentTitle(PhoneNumberUtils.normalizeNumber(sender))
-                .setContentText(msg)
+                .setContentTitle(p.getFullName())
+                .setContentText(msg_body)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(ctx);
@@ -83,12 +85,11 @@ public class Interceptor extends BroadcastReceiver {
     }
 
     /**
-     * looks up the sender in the DB to see if we know them. If we know them, we can mess, if not,
-     * then forget about it.
-     * @return a boolean indicating DB containment
+     *
+     * @return the person associated with this number
      */
-    private boolean canITouchThis(Context ctx) {
+    private Person whoIsThis(Context ctx) {
         DB_Proxy db = new DB_Proxy(ctx);
-        return !(null == db.lookupPerson(sender));
+        return db.lookupPerson(sender);
     }
 }

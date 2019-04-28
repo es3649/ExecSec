@@ -70,11 +70,11 @@ public class DB_Proxy {
         }
 
         // the person takes the arguments (name, number)
-        // the database column order is number, name
+        // the database column order is number, given name, surname
         cursor.moveToNext();
-        Person p = new Person(cursor.getString(2), cursor.getString(0), cursor.getString(1));
+        Person p = new Person(cursor.getString(1), cursor.getString(2), cursor.getString(0));
         cursor.close();
-        Log.d(TAG, "Found person");
+//        Log.d(TAG, "Found person: " + p.toString());
         return p;
     }
 

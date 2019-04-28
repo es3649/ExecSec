@@ -3,6 +3,10 @@ package com.es3649.execsec.data.model;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
+import java.util.Locale;
+
 /**
  * Represents a person. They have a name and a phone number.
  * Doesn't it feel so CS101?
@@ -31,7 +35,9 @@ public class Person {
     private String surname;
     private String number;
 
-
+    public String getFullName() {
+        return String.format(Locale.getDefault(), "%s %s", getName(), getSurname());
+    }
 
     public String getName() {
         return name;
@@ -50,12 +56,18 @@ public class Person {
     }
     public void setNumber(String number) {
         // format the number
-//        Log.d(TAG, "Number: " + number);
+        Log.d(TAG, "Number: " + number);
         this.number = PhoneNumberUtils.formatNumberToE164(number, US_COUNTRY_CODE);
-//        Log.d(TAG, "After ToE164: " + this.number);
+        Log.d(TAG, "After ToE164: " + this.number);
         if (!PhoneNumberUtils.isWellFormedSmsAddress(this.getNumber())) {
             Log.e(TAG, String.format("The phone number `%s` is not dialable!",
                     this.getNumber()));
         }
+    }
+
+    @Override
+    public String toString() {
+        Gson g = new Gson();
+        return g.toJson(this);
     }
 }
