@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.es3649.execsec.data.model.Person;
-import com.es3649.execsec.data.model.ScheduleTransaction;
+import com.es3649.execsec.nlp.conversationmanager.ScheduleTransaction;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -69,7 +69,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
             // add the settings button
             menu.findItem(R.id.menuTopSettingsButton).setIcon(
                     new IconDrawable(this, FontAwesomeIcons.fa_cogs)
-                    .colorRes(R.color.colorPrimaryLight)
+                    .colorRes(R.color.colorPrimaryLighter)
+                    .actionBarSize());
+
+            menu.findItem(R.id.menuNewMessageButton).setIcon(
+                    new IconDrawable(this, FontAwesomeIcons.fa_pencil_square)
+                    .colorRes(R.color.colorPrimaryLighter)
                     .actionBarSize());
         }
 
@@ -83,6 +88,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         case R.id.menuTopSettingsButton:
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
+
+        case R.id.menuNewMessageButton:
+            startActivity(new Intent(this, MessagerActivity.class));
+            return true;
+
         default:
             Log.e(TAG, "bad menu choice");
             return super.onOptionsItemSelected(item);

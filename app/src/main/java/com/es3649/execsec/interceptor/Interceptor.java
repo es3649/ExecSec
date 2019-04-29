@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompatSideChannelService;
 import android.support.v4.app.NotificationManagerCompat;
-import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
@@ -16,6 +15,8 @@ import com.es3649.execsec.data.database.DB_Proxy;
 import com.es3649.execsec.data.model.Person;
 import com.es3649.execsec.nlp.NLPIntent;
 import com.es3649.execsec.nlp.Processor;
+import com.es3649.execsec.nlp.conversationmanager.Responder;
+import com.es3649.execsec.nlp.conversationmanager.ScheduleTransaction;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class Interceptor extends BroadcastReceiver {
 
     private String msg_body = "";
     private String sender;
+    private DB_Proxy db = null;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -59,7 +61,8 @@ public class Interceptor extends BroadcastReceiver {
             }
         }
 
-        Person p = whoIsThis(context);
+        DB_Proxy db = new DB_Proxy(context);
+        Person p = db.lookupPerson(sender);
         if (p != null) {
             // TODO parse the message body
             Processor nlpProcessor = new Processor();
@@ -68,28 +71,22 @@ public class Interceptor extends BroadcastReceiver {
             // no perceived intent
 //            if (intents.isEmpty()) return;
 
+            // if we have intent, look for a current transaction
+            ScheduleTransaction st = db.lookupTransaction(sender);
+            if (st == null) {
+                st = new ScheduleTransaction(p);
+            }
+
+            // suggest a response
+            Responder r = new Responder();
+            String response = r.getResponse(st, intents);
+
+            // push the notification with the suggestion
+
             //TODO we need a conversation manager package of some kind
-            pushNotification(context, p);
+            new Notifier().pushNotification(context, p, response);
         }
     }
 
-    private void pushNotification(Context ctx, Person p) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx, NotificationCompatSideChannelService.NOTIFICATION_SERVICE)
-                .setSmallIcon(R.drawable.envelope)
-                .setContentTitle(p.getFullName())
-                .setContentText(msg_body)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(ctx);
-        notificationManager.notify(0, builder.build());
-    }
-
-    /**
-     *
-     * @return the person associated with this number
-     */
-    private Person whoIsThis(Context ctx) {
-        DB_Proxy db = new DB_Proxy(ctx);
-        return db.lookupPerson(sender);
-    }
 }
