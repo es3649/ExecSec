@@ -78,6 +78,34 @@ public class DB_Proxy {
         return p;
     }
 
+    public Person[] lookupPeopleByName(String name) {
+        Log.d(TAG, "Looking for " + name);
+        String[] projection = {DB_Helper.P_NUMBER_COL_ID,
+        DB_Helper.P_GIVEN_NAME_COL_ID, DB_Helper.P_SURNAME_COL_ID};
+
+        // TODO this won't work with full names
+        String selection = DB_Helper.P_GIVEN_NAME_COL_ID + " like ? || "
+                + DB_Helper.P_SURNAME_COL_ID + " like ?";
+        String[] selectionArgs = {name, name};
+
+        SQLiteDatabase db = new DB_Helper(context).getReadableDatabase();
+
+        Cursor cursor = db.query(DB_Helper.PERSON_TABLE_NAME, projection,
+                selection, selectionArgs, null, null, null);
+
+        Person[] result = new Person[cursor.getCount()];
+
+        for (int i = 0; i < cursor.getCount(); i++) {
+            cursor.moveToNext();
+            Person p = new Person(cursor.getString(1), cursor.getString(2), cursor.getString(0));
+
+            result[i] = p;
+        }
+        cursor.close();
+
+        return result;
+    }
+
     /**
      * deletes all the people in the peopleDB.
      * @return the number of deleted records

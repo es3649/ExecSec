@@ -20,6 +20,7 @@
             android:rowCount="2">
 
             <TextView
+                android:labelFor="@id/lfUsernameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -35,6 +36,7 @@
                 android:inputType="textEmailAddress"/>
 
             <TextView
+                android:labelFor="@id/lfPasswordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
