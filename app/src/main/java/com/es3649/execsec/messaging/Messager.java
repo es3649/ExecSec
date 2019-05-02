@@ -1,4 +1,4 @@
-package com.es3649.execsec.interceptor;
+package com.es3649.execsec.messaging;
 
 import android.app.PendingIntent;
 import android.content.Context;

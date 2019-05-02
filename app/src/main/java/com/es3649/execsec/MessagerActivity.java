@@ -1,5 +1,7 @@
 package com.es3649.execsec;
 
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
@@ -13,9 +15,18 @@ import android.widget.Toast;
 
 import com.es3649.execsec.data.database.DB_Proxy;
 import com.es3649.execsec.data.model.Person;
-import com.es3649.execsec.interceptor.Messager;
+import com.es3649.execsec.messaging.Messager;
+import com.es3649.execsec.messaging.ResolveContactDialogFragment;
+import com.es3649.execsec.messaging.contact.AmbiguousContact;
+import com.es3649.execsec.messaging.contact.NamelessContact;
+import com.es3649.execsec.messaging.contact.NoMatchContact;
+import com.es3649.execsec.messaging.contact.UnresolvedContact;
 
-public class MessagerActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MessagerActivity extends AppCompatActivity
+        implements ResolveContactDialogFragment.Listener {
 
     private static final String TAG = "MessagerActivity";
     private EditText recipientsEditText;
@@ -69,8 +80,11 @@ public class MessagerActivity extends AppCompatActivity {
      */
     private void sendMessage() {
         DB_Proxy db = new DB_Proxy(this);
-        String[] recipientNameList = recipientsEditText.getText().toString().split("[,\n ]*");
+        String[] recipientNameList = recipientsEditText.getText().toString().split("[,;\n]+");
         Person[] recipientList = new Person[recipientNameList.length];
+        Log.d(TAG, String.format("Found %d contacts", recipientList.length));
+
+        List<UnresolvedContact> unresolvedContacts = new ArrayList<>();
 
         for (int i = 0; i < recipientNameList.length; i++) {
             if (PhoneNumberUtils.isWellFormedSmsAddress(recipientNameList[i])) {
@@ -78,9 +92,7 @@ public class MessagerActivity extends AppCompatActivity {
                 Person p = db.lookupPerson(recipientNameList[i]);
 
                 if (p == null) {
-                    // then just whatever, at least it's dialable
-                    p = new Person(null, null, recipientNameList[i]);
-                    // TODO maybe do a warning?
+                    unresolvedContacts.add(new NamelessContact(i, recipientNameList[i]));
                 }
 
                 recipientList[i] = p;
@@ -89,19 +101,24 @@ public class MessagerActivity extends AppCompatActivity {
                 Log.d(TAG, "Recipient is not SMS form: " + recipientNameList[i]);
                 Person[] pList = db.lookupPeopleByName(recipientNameList[i]);
 
-
                 if (pList.length == 0) {
-                    // TODO this is an error to report to the user
+                    Log.d(TAG, "Found no match for: " + recipientNameList[i]);
+                    unresolvedContacts.add(new NoMatchContact(i, recipientNameList[i]));
 
                 } else if (pList.length == 1) {
                     recipientList[i] = pList[0];
-
+                    Log.d(TAG, "Resolved address to: " + recipientList[i].getNumber());
                 } else {
-                    recipientList[i] = resolve(recipientNameList[i], pList);
+                    unresolvedContacts.add(new AmbiguousContact(i, recipientNameList[i], pList));
+                    recipientList[i] = null;
                 }
 
-                Log.d(TAG, "Resolved address to: " + recipientList[i].getNumber());
             }
+        }
+
+        if (!resolve(unresolvedContacts, recipientList)) {
+            Log.i(TAG, "Failed to resolve");
+            return;
         }
 
         Messager messager = new Messager(this);
@@ -115,22 +132,39 @@ public class MessagerActivity extends AppCompatActivity {
     }
 
     /**
-     * Resolves a lookup conflict, first by checking for unique, exact matches,
-     * then by making the user choose one!
+     * Creates a dialog for resolving contacts and requires the user to help us
+     * figure out what they meant, because it was ambiguous or something.
      *
-     * @param name the name we intended to see
-     * @param pList the list from which to resolve ambiguity
-     * @return the person we actually meant to get in the first place
+     * @param resolveThese the list of unresolved contacts to resolve
+     * @param recipientList the destination list for the recipients to be resolved.
+     * @return true if every contact was resolved, false if not.
      */
-    private Person resolve(String name, Person[] pList) {
-        // TODO account for first and last name, vs. one or the other
-        // TODO prompt the user to solve the problem
+    private boolean resolve(List<UnresolvedContact> resolveThese, Person[] recipientList) {
 
-        // TODO We will use an AlertDialog here
+        // TODO We will use an AlertDialog here (with a recycler view)
+        // TODO | when the alert dialog returns negative, we will return false
+        // TODO | when the alert dialog returns true, we will first make sure
+        // TODO | that everything is resolved, if not, we toast and don't exit
         // https://developer.android.com/guide/topics/ui/dialogs
 
+        if (resolveThese.size() == 0) {
+            return true;
+        }
 
-        return null;
+        ResolveContactDialogFragment dialog = ResolveContactDialogFragment.newInstance(resolveThese, this);
+        dialog.show(getSupportFragmentManager(), "ContactResolutionDialog");
+
+        return false;
+    }
+
+    @Override
+    public void onPositiveInteraction() {
+
+    }
+
+    @Override
+    public void onNegativeInteraction() {
+
     }
 
     /**
