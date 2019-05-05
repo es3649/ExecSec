@@ -1,4 +1,4 @@
-package com.es3649.execsec;
+package com.es3649.execsec.activities;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,7 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+
+import com.es3649.execsec.R;
 
 // TODO clean this all up. It still has all the auto-generated stuff
 // TODO add an option to sign in with google, cause that's dope

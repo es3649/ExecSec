@@ -1,4 +1,4 @@
-package com.es3649.execsec;
+package com.es3649.execsec.activities.settings;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.es3649.execsec.R;
 import com.es3649.execsec.data.database.DB_Loader;
 import com.es3649.execsec.data.database.LoadResult;
 import com.es3649.execsec.serverproxy.ServerAccessException;

@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
             <intent-filter>
@@ -26,6 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.ConversationViewerActivity" />
 
         <receiver
             android:name=".interceptor.Interceptor"
@@ -37,9 +38,9 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".LoaderActivity"
+        <activity android:name=".activities.settings.LoaderActivity"
             android:label="@string/laLabel"
+<<<<<<< HEAD
             android:parentActivityName=".SettingsActivity" />
         <activity
             android:name=".SettingsActivity"
@@ -49,6 +50,12 @@
             android:name=".messaging.UI.MessagerActivity"
             android:label="@string/msgLabel" />
         <activity android:name=".viewers.MessageViewActivity"></activity>
+=======
+            android:parentActivityName=".activities.settings.SettingsActivity"/>
+
+        <activity android:name=".activities.settings.SettingsActivity"
+            android:label="@string/setLabel"/>
+>>>>>>> moved activities to package
     </application>
 
 </manifest>

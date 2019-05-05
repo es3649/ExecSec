@@ -1,4 +1,4 @@
-package com.es3649.execsec;
+package com.es3649.execsec.activities.settings;
 
 import android.Manifest;
 import android.accounts.AccountManager;
@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.es3649.execsec.R;
 import com.es3649.execsec.data.database.DB_Proxy;
 import com.es3649.execsec.data.model.Person;
 import com.es3649.execsec.sheets.SheetsFetchTask;

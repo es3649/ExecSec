@@ -1,4 +1,4 @@
-package com.es3649.execsec;
+package com.es3649.execsec.activities;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.es3649.execsec.R;
 
 // TODO make this look nice
 // TODO this crashed when it rotates, let's actually fix that this time
