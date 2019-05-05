@@ -1,0 +1,38 @@
+{
+  "intentList":[
+    {
+      "wordClassList":[
+        [
+          "bishop",
+          "bishopric"
+        ],
+        [
+          "appointment",
+          "meet"
+        ]
+      ],
+      "intentName":"scheduleAppointment"
+    },
+
+    {
+      "wordClassList":[
+        [
+          "can'?t make",
+          "reschedule",
+          "move"
+        ]
+      ],
+      "intentName":"rescheduleAppointment"
+    },
+
+    {
+      "wordClassList":[
+        [
+          "cancel",
+          "don'?t need"
+        ]
+      ],
+      "intentName":"cancelAppointment"
+    }
+  ]
+}

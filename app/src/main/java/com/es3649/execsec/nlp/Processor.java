@@ -1,5 +1,6 @@
 package com.es3649.execsec.nlp;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,13 +12,15 @@ import java.util.List;
 
 public class Processor {
 
-    public Processor() {}
-
-    public Processor(String confFile) {
-        this.confFile = confFile;
+    public Processor() {
+        this.conf = IntentConfig.getDefault();
     }
 
-    private String confFile;
+    public Processor(String confFile) {
+        this.conf = IntentConfig.fromFile(confFile);
+    }
+
+    private IntentConfig conf;
 
     /**
      * This does all the work, honestly. It takes a string, and parses the content to
@@ -28,6 +31,20 @@ public class Processor {
      * @return a list of possible inferred intents
      */
     public List<NLPIntent> process(String processMe) {
+        String[] wordList = makeWordLists(processMe);
+
+        return null;
+    }
+
+    private String[] makeWordLists(String toList) {
+        return toList.split("[ \n\t]+");
+    }
+
+    private NLPIntent findIntent(String[] stringList, IntentConfig.IntentStructure structure) {
+        return null;
+    }
+
+    private Date findDate(String[] stringList) {
         return null;
     }
 }
