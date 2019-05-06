@@ -18,12 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-<<<<<<< HEAD:app/src/main/java/com/es3649/execsec/MainActivity.java
 import com.es3649.execsec.messaging.UI.MessagerActivity;
-=======
-import com.es3649.execsec.R;
-import com.es3649.execsec.activities.settings.SettingsActivity;
->>>>>>> moved activities to package:app/src/main/java/com/es3649/execsec/activities/MainActivity.java
 import com.es3649.execsec.model.Model;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
