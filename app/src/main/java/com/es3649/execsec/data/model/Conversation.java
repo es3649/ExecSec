@@ -14,7 +14,7 @@ public class Conversation {
     private List<Message> conversation;
 
 
-    Conversation(){
+    public Conversation(){
         conversation = new ArrayList<Message>();
     }
 

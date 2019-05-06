@@ -1,6 +1,9 @@
 package com.es3649.execsec.data.model;
 
+import com.es3649.execsec.nlp.NLPIntent;
+
 import java.util.Date;
+import java.util.List;
 
 /**
  * Defines a message in a conversation
@@ -9,8 +12,26 @@ import java.util.Date;
  */
 
 public class Message {
-    private boolean isFromMe;
+    private boolean fromMe = false;
     private String messageContent;
     private Date time;
-    // TODO intents inferred from messages need to be linked to this somehow.
+    private List<NLPIntent> inferredIntents;
+    private String suggestedResponse;
+
+    public Message(String messageContent, List<NLPIntent> inferredIntents) {
+        setMessageContent(messageContent);
+        setInferredIntents(inferredIntents);
+    }
+
+    public void setFromMe(boolean fromMe) {this.fromMe = fromMe;}
+    public void setInferredIntents(List<NLPIntent> inferredIntents) {this.inferredIntents = inferredIntents;}
+    public void setTime(Date time) {this.time = time;}
+    public void setMessageContent(String messageContent) {this.messageContent = messageContent;}
+    public void setSuggestedResponse(String suggestedResponse) {this.suggestedResponse = suggestedResponse;}
+
+    public boolean isFromMe() {return fromMe;}
+    public List<NLPIntent> getIntents() {return inferredIntents;}
+    public Date getTime() {return time;}
+    public String getMessageContent() {return messageContent;}
+    public String getSuggestedResponse() {return suggestedResponse;}
 }

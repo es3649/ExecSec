@@ -8,9 +8,10 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.es3649.execsec.data.model.Person;
-import com.es3649.execsec.data.model.ScheduleTransaction;
+import com.es3649.execsec.nlp.conversationmanager.ScheduleTransaction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,7 +25,6 @@ import java.util.List;
  *
  * Created by es3649 on 4/25/19.
  */
-
 public class DB_Proxy {
     public DB_Proxy(Context ctx){
         context = ctx;
@@ -32,6 +32,10 @@ public class DB_Proxy {
 
     private static final String TAG = "dao.DB_Proxy";
     private Context context;
+
+    //----------------------------------------------------------------//
+    //----------------------- Person Functions -----------------------//
+    //----------------------------------------------------------------//
 
     /**
      * Stores a person in the local database
@@ -78,6 +82,151 @@ public class DB_Proxy {
         return p;
     }
 
+
+
+    public Person[] lookupPeopleByName(String name) {
+        Log.d(TAG, "Looking for " + name);
+        String[] nameList = name.split(" +");
+        switch(nameList.length) {
+            default:
+                Log.e(TAG, String.format("Name '%s' has %d space separated parts",
+                        name, nameList.length));
+                // I intentionally left out the break here
+            case 2:
+                Log.d(TAG, "Determined it was a 2 part-name");
+                return lookupMultiName(new String[] {nameList[0], nameList[1]});
+            case 1:
+                Log.d(TAG, "Determined it was a 1 part-name");
+                return lookupOneName(name);
+        }
+    }
+
+    private Person[] lookupOneName(String name) {
+        String selection = DB_Helper.P_GIVEN_NAME_COL_ID + " = ? OR " +
+                DB_Helper.P_SURNAME_COL_ID + " = ?";
+        String[] selectionArgs = {name, name};
+
+        SQLiteDatabase db = new DB_Helper(context).getReadableDatabase();
+        Person[] result = doNameLookups(db, selection, selectionArgs);
+
+        if (result != null && result.length > 0 ) {
+            Log.d(TAG, String.format("Exact matching query returned %d entries", result.length));
+            return result;
+        }
+
+        // try a like query
+        selection = DB_Helper.P_GIVEN_NAME_COL_ID + " LIKE ? OR " +
+                DB_Helper.P_SURNAME_COL_ID + " LIKE ?";
+        selectionArgs = makeLikeable(selectionArgs);
+
+        result = doNameLookups(db, selection, selectionArgs);
+
+        if (result != null && result.length > 0 ) {
+            Log.d(TAG, String.format("Like matching query returned %d entries", result.length));
+            return result;
+        }
+
+        return null;
+    }
+
+    private Person[] lookupMultiName(String[] names) {
+        // try an exact query with AND
+        String selection = DB_Helper.P_GIVEN_NAME_COL_ID + " = ? AND " +
+                DB_Helper.P_SURNAME_COL_ID + " = ?";
+        String[] selectionArgs = {names[0], names[1]};
+
+        SQLiteDatabase db = new DB_Helper(context).getReadableDatabase();
+        Person[] result = doNameLookups(db, selection, selectionArgs);
+
+        if (result != null && result.length > 0 ) {
+            Log.d(TAG, String.format("Exact matching AND query returned %d entries", result.length));
+            return result;
+        }
+
+        // try a like query with AND
+        selection = DB_Helper.P_GIVEN_NAME_COL_ID + " LIKE ? AND " +
+                DB_Helper.P_SURNAME_COL_ID + " LIKE ?";
+        String[] likableSelectionArgs = makeLikeable(selectionArgs);
+
+        result = doNameLookups(db, selection, likableSelectionArgs);
+
+        if (result != null && result.length > 0 ) {
+            Log.d(TAG, String.format("Like matching AND query returned %d entries", result.length));
+            return result;
+        }
+
+        // try an exact query with OR
+        selection = DB_Helper.P_GIVEN_NAME_COL_ID + " = ? OR " +
+                DB_Helper.P_SURNAME_COL_ID + " = ?";
+        result = doNameLookups(db, selection, selectionArgs);
+
+        if (result != null && result.length > 0 ) {
+            Log.d(TAG, String.format("Exact matching OR query returned %d entries", result.length));
+            return result;
+        }
+
+        // try a like query with OR
+        selection = DB_Helper.P_GIVEN_NAME_COL_ID + " LIKE ? AND " +
+                DB_Helper.P_SURNAME_COL_ID + " LIKE ?";
+        result = doNameLookups(db, selection, likableSelectionArgs);
+
+        if (result != null && result.length > 0 ) {
+            Log.d(TAG, String.format("Like matching OR query returned %d entries", result.length));
+            return result;
+        }
+
+        return null;
+    }
+
+    /**
+     * Does all the dirty work of connecting to the db
+     * @param db the database to query
+     * @param selection the selection string for the query
+     * @param selectionArgs the arguments for the selection
+     * @return the list of people which were found in the query
+     */
+    private Person[] doNameLookups(SQLiteDatabase db, String selection, String[] selectionArgs) {
+        String[] projection = {DB_Helper.P_NUMBER_COL_ID,
+                DB_Helper.P_GIVEN_NAME_COL_ID, DB_Helper.P_SURNAME_COL_ID};
+
+        Cursor cursor;
+        try {
+            cursor = db.query(DB_Helper.PERSON_TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, null);
+        } catch (Exception ex) {
+            Log.e(TAG, "SQL failure", ex);
+            return null;
+        }
+
+        Person[] result = processPersonResults(cursor);
+        cursor.close();
+        return result;
+    }
+
+    private Person[] processPersonResults(Cursor cursor) {
+        Person[] result = new Person[cursor.getCount()];
+        for (int i = 0; i < cursor.getCount(); i++) {
+            cursor.moveToNext();
+            Person p = new Person(cursor.getString(1), cursor.getString(2), cursor.getString(0));
+
+            result[i] = p;
+        }
+        return result;
+    }
+
+    /**
+     * Makes a string more useful for sql like clauses by adding the '%' character.
+     *
+     * @param likeMe ta list of strings to be modified
+     * @return the same list of strings with each one modified as described.
+     */
+    private String[] makeLikeable(String likeMe[]) {
+        for (int i = 0; i < likeMe.length; i++) {
+            likeMe[i] = "%" + likeMe[i] + "%";
+        }
+        return likeMe;
+    }
+
     /**
      * deletes all the people in the peopleDB.
      * @return the number of deleted records
@@ -88,6 +237,10 @@ public class DB_Proxy {
         SQLiteDatabase db = new DB_Helper(context).getWritableDatabase();
         return db.delete(DB_Helper.PERSON_TABLE_NAME, null, null);
     }
+
+    //---------------------------------------------------------------//
+    //-------------------- Transaction Functions --------------------//
+    //---------------------------------------------------------------//
 
     /**
      * Stashes a transaction in the database
@@ -105,6 +258,7 @@ public class DB_Proxy {
 
         db.insert(DB_Helper.TRANSACTION_TABLE_NAME, null, values);
     }
+
 
     public void deleteTransaction(String phoneNumber) {
         // TODO

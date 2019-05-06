@@ -1,7 +1,9 @@
-package com.es3649.execsec.data.model;
+package com.es3649.execsec.nlp.conversationmanager;
 
 import android.util.Log;
 
+import com.es3649.execsec.data.model.Conversation;
+import com.es3649.execsec.data.model.Person;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 

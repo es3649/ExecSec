@@ -2,8 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:title="@string/menuNewMessageButton"
+        android:id="@+id/menuNewMessageButton"
+        app:showAsAction="ifRoom" />
+
     <item android:title="@string/menuTopSettingsButton"
         android:id="@+id/menuTopSettingsButton"
         app:showAsAction="ifRoom" />
-
+    
 </menu>

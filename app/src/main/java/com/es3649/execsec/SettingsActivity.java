@@ -34,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        // TODO make this switch into an AlertDialog
         ((Switch)findViewById(R.id.setClearDBSafetySwitch)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
