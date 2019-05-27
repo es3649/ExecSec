@@ -1,6 +1,8 @@
 package com.es3649.execsec.nlp;
 
-import java.util.Date;
+import com.es3649.execsec.nlp.model.ChunkParsedString;
+import com.es3649.execsec.nlp.model.NLPTemplate;
+
 import java.util.List;
 
 /**
@@ -31,20 +33,40 @@ public class Processor {
      * @return a list of possible inferred intents
      */
     public List<NLPIntent> process(String processMe) {
-        String[] wordList = makeWordLists(processMe);
+        ChunkParsedString wordList = chunkParse(processMe);
 
         return null;
     }
 
-    private String[] makeWordLists(String toList) {
-        return toList.split("[ \n\t]+");
+    /**
+     * Performs a syntactic chunk parse of the string
+     * @param toParse the string to parse
+     * @return a chunk string of the string to parse
+     */
+    private ChunkParsedString chunkParse(String toParse) {
+        String[] wordList = toParse.split("[ \t\n]+");
+        return null;
     }
 
+    /**
+     * Searches for intents within a string
+     * @param stringList a word list // TODO should this be a ChunkParsedString?
+     * @param structure the structure of the intend to find
+     * @return The intent found in the string, if any
+     */
     private NLPIntent findIntent(String[] stringList, IntentConfig.IntentStructure structure) {
         return null;
     }
 
-    private Date findDate(String[] stringList) {
-        return null;
+    /**
+     * Looks through the data to try to fill out the Template
+     * @param data the data from which to fill the template
+     *        // TODO should this be a string, or a ChunkParsedString?
+     * @param template the template to be filled, it is used by reference
+     * @return false
+     */
+    public boolean fillTemplate(String data, NLPTemplate template) {
+        // TODO we look through the string for
+        return false;
     }
 }

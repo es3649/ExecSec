@@ -4,13 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationCompatSideChannelService;
-import android.support.v4.app.NotificationManagerCompat;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
-import com.es3649.execsec.R;
 import com.es3649.execsec.data.database.DB_Proxy;
 import com.es3649.execsec.data.model.Person;
 import com.es3649.execsec.nlp.NLPIntent;
