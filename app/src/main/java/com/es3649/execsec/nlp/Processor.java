@@ -44,8 +44,8 @@ public class Processor {
      * @return a chunk string of the string to parse
      */
     private ChunkParsedString chunkParse(String toParse) {
-        String[] wordList = toParse.split("[ \t\n]+");
-        return null;
+        SyntacticChunkParser scp = new SyntacticChunkParser();
+        return scp.parse(toParse);
     }
 
     /**
