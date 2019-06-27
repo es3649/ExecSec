@@ -88,6 +88,15 @@ public class MessagerFragment extends Fragment {
         messageBodyEditText = v.findViewById(R.id.msgfMessageBody);
         sendButton = v.findViewById(R.id.msgfSendButton);
 
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO call the listener back
+                mListener.handleMessage(recipientsEditText.getText().toString(),
+                        messageBodyEditText.getText().toString());
+            }
+        });
+
         recipientsEditText.addTextChangedListener(tw);
         messageBodyEditText.addTextChangedListener(tw);
 
@@ -122,16 +131,6 @@ public class MessagerFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement MessagerFragment.Listener");
         }
-
-        // TODO write
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO call the listener back
-                mListener.handleMessage(recipientsEditText.getText().toString(),
-                        messageBodyEditText.getText().toString());
-            }
-        });
     }
 
     @Override

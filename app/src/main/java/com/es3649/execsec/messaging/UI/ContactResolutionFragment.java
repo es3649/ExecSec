@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.es3649.execsec.R;
 import com.es3649.execsec.adapters.ContactResolutionAdapter;
@@ -34,8 +35,10 @@ public class ContactResolutionFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private ArrayList<String> mRecipients;
     private String mMessage;
+    private List<Contact> contactList;
 
     private RecyclerView rcv;
+    private LinearLayoutManager linLay;
 
     private Listener mListener;
 
@@ -90,10 +93,31 @@ public class ContactResolutionFragment extends Fragment {
         rcv = v.findViewById(R.id.crfRecycler);
 
         // TODO build the contacts list
-        List<Contact> contacts = mListener.getContacts(mRecipients);
+        contactList = mListener.getContacts(mRecipients);
 
-        rcv.setAdapter(new ContactResolutionAdapter(contacts));
+        rcv.setAdapter(new ContactResolutionAdapter(contactList));
+        rcv.setLayoutManager(linLay);
 
+        v.findViewById(R.id.crfDone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prepareAndSend();
+            }
+        });
+
+        v.findViewById(R.id.crfBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.back();
+            }
+        });
+
+        v.findViewById(R.id.crfCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.cancel();
+            }
+        });
 
         return v;
     }
@@ -108,7 +132,7 @@ public class ContactResolutionFragment extends Fragment {
                     + " must implement ContactResolutionFragment.Listener");
         }
 
-        rcv.setLayoutManager(new LinearLayoutManager(context));
+        linLay = new LinearLayoutManager(context);
     }
 
     @Override
@@ -133,6 +157,26 @@ public class ContactResolutionFragment extends Fragment {
         }
 
         return messageText;
+    }
+
+    /**
+     * Prepares the lists of messages and contacts to
+     */
+    private void prepareAndSend() {
+        ArrayList<String> messages = new ArrayList<>();
+        ArrayList<Person> recipients = new ArrayList<>();
+
+        for (int i = 0; i < contactList.size(); i++) {
+            if (!contactList.get(i).isResolved()) {
+                // TODO it would be good to toast here
+                return;
+            }
+
+            recipients.add(contactList.get(i).getPerson());
+            messages.add(doReplacements(mMessage, contactList.get(i).getPerson()));
+        }
+
+        mListener.sendMessages(recipients, messages);
     }
 
     private static final String FIRST_NAME_TAG = "%name";
@@ -169,7 +213,7 @@ public class ContactResolutionFragment extends Fragment {
      */
     public interface Listener {
         List<Contact> getContacts(List<String> recipients);
-        void sendMessages();
+        void sendMessages(List<Person> recipients, List<String> messages);
         void cancel();
         void back();
     }

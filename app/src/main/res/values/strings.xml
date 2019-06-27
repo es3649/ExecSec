@@ -58,9 +58,9 @@
     <string name="msgfMessageBody">Message Body</string>
 
     <!-- Contact Resolution View Holder strings (Prefixes: 'rnvh', 'rcvh', 'rmvh', 'rdf' ) -->
-    <string name="rnvhDescription">Add a name</string>
+    <string name="rnvhDescription">Add a number</string>
     <string name="rcvhDescription">Choose a name</string>
-    <string name="rmvhDescription">Add a number</string>
+    <string name="rmvhDescription">Add a name</string>
 
     <!-- Message Viewer strings  -->
     <string name="mvaSendButton">Send</string>

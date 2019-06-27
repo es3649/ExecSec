@@ -41,6 +41,7 @@ public class NoMatchContactViewHolder extends ContactViewHolder {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
+            // TODO fix this, it crashes too fast
             @Override
             public void afterTextChanged(Editable editable) {
                 String number = editable.toString();

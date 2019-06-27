@@ -67,7 +67,7 @@ public class MessagerActivity extends AppCompatActivity
         ArrayList<String> recipientNameList = new ArrayList<String>(
                 Arrays.asList(recipientList.split(" *[,;\n]+ *")));
 
-        DB_Proxy db = new DB_Proxy(this);
+        db = new DB_Proxy(this);
 
         // TODO separate the recipientList, then move to the contact
         // TODO | resolution fragment. Also start a dbProxy at this time
@@ -79,9 +79,10 @@ public class MessagerActivity extends AppCompatActivity
 
     // OVERRIDE METHODS FOR ContactResolutionFragment.Listener
     @Override
-    public void sendMessages() {
+    public void sendMessages(List<Person> recipients, List<String> messages) {
         // TODO add argument list
         // TODO do the real work, for each message to send, send it
+        Toast.makeText(this, "Sending!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -122,7 +123,7 @@ public class MessagerActivity extends AppCompatActivity
                 Log.d(TAG, "Recipient is not SMS form: " + recipients.get(i));
                 Person[] pList = db.lookupPeopleByName(recipients.get(i));
 
-                if (pList.length == 0) {
+                if (pList == null || pList.length == 0) {
                     Log.d(TAG, "Found no match for: " + recipients.get(i));
                     contacts.add(new NoMatchContact(i, recipients.get(i)));
 
