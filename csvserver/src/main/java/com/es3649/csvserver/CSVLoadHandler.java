@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.Level;
 
@@ -55,7 +54,7 @@ class CSVLoadHandler implements HttpHandler {
         // authenticate
         Headers headers = exchange.getRequestHeaders();
         CSVServer.logger.log(Level.FINEST, System.getenv("PWD"));
-        String password = new Scanner(new File("com/es3649/csvserver/password")).nextLine();
+        String password = new Scanner(new File("password")).nextLine();
         CSVServer.logger.log(Level.INFO, "Password is: "+password);
 
         if (!headers.containsKey(AUTHENTICATION_HEADER)) {
@@ -73,7 +72,7 @@ class CSVLoadHandler implements HttpHandler {
         }
 
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-        FileInputStream fis = new FileInputStream("com/es3649/csvserver/file.csv");
+        FileInputStream fis = new FileInputStream("file.csv");
         copy(fis, os);
 
         CSVServer.logger.log(Level.INFO, "Success (200)");

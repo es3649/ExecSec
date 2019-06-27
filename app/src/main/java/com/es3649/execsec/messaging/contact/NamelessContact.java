@@ -8,7 +8,7 @@ import com.es3649.execsec.data.model.Person;
  * Created by es3649 on 4/30/19.
  */
 
-public class NamelessContact extends UnresolvedContact {
+public class NamelessContact extends Contact {
     public NamelessContact(int idx, String number) {
         super(idx);
         this.number = number;

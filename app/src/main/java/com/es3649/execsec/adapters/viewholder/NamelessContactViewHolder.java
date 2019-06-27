@@ -8,9 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.es3649.execsec.R;
-import com.es3649.execsec.data.model.Person;
 import com.es3649.execsec.messaging.contact.NamelessContact;
-import com.es3649.execsec.messaging.contact.UnresolvedContact;
+import com.es3649.execsec.messaging.contact.Contact;
 
 /**
  * A view holder for NamelessContact
@@ -18,7 +17,7 @@ import com.es3649.execsec.messaging.contact.UnresolvedContact;
  * Created by es3649 on 4/30/19.
  */
 
-public class NamelessContactViewHolder extends UnresolvedContactViewHolder {
+public class NamelessContactViewHolder extends ContactViewHolder {
 
     private ConstraintLayout topLayout;
     private TextView numberTextView;
@@ -34,7 +33,7 @@ public class NamelessContactViewHolder extends UnresolvedContactViewHolder {
 
     }
 
-    public void bind(UnresolvedContact contact) {
+    public void bind(Contact contact) {
         nnContact = (NamelessContact)contact;
 
         topLayout.setBackgroundColor(getUnresolvedColor());

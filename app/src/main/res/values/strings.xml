@@ -48,19 +48,26 @@
     <string name="tvaNoTransaction">No transaction provided</string>
     <string name="title_activity_message_view">MessageViewActivity</string> -->
 
-    <!-- MessagerActivity strings (Prefix: 'msg' ) -->
+    <!-- Messager Activity strings (Prefix: 'msg' ) -->
     <string name="msgLabel">New Message</string>
-    <string name="msgSendButton">Send</string>
-    <string name="msgSending">Sending…</string>
-    <string name="msgRecipients">Recipients</string>
-    <string name="msgMessageBody">Message Body</string>
+
+    <!-- Messager Fragment strings (Prefix: 'msgf' ) -->
+    <string name="msgfSendButton">Send</string>
+    <string name="msgfSending">Sending…</string>
+    <string name="msgfRecipients">Recipients</string>
+    <string name="msgfMessageBody">Message Body</string>
 
     <!-- Contact Resolution View Holder strings (Prefixes: 'rnvh', 'rcvh', 'rmvh', 'rdf' ) -->
-    <string name="rnvhDescription">Add a name</string>
+    <string name="rnvhDescription">Add a number</string>
     <string name="rcvhDescription">Choose a name</string>
-    <string name="rmvhDescription">Add a number</string>
-    <string name="rdfLabel">Failed Resolutions:</string>
-    <string name="rdfPositive">Finish</string>
-    <string name="rdfNegative">Cancel</string>
+    <string name="rmvhDescription">Add a name</string>
+
+    <!-- Message Viewer strings  -->
+    <string name="mvaSendButton">Send</string>
+
+    <!-- ContactResolutionFragment (Prefix: 'crf' ) -->
+    <string name="crfBack">Back</string>
+    <string name="crfDone">Finish</string>
+    <string name="crfCancel">Cancel</string>
 
 </resources>

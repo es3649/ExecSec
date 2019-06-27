@@ -11,6 +11,7 @@ import java.util.List;
 
 public class Conversation {
     private static final String TAG = "Conversation";
+    private Person participant;
     private List<Message> conversation;
 
 

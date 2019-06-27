@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.es3649.execsec.R;
-import com.es3649.execsec.messaging.contact.UnresolvedContact;
+import com.es3649.execsec.messaging.contact.Contact;
 
 /**
  * This is an abstract superclass for all contact resolution ViewHolders.
@@ -12,17 +12,17 @@ import com.es3649.execsec.messaging.contact.UnresolvedContact;
  * Created by es3649 on 4/30/19.
  */
 
-public abstract class UnresolvedContactViewHolder extends RecyclerView.ViewHolder {
+public abstract class ContactViewHolder extends RecyclerView.ViewHolder {
     private int unresolvedColor;
     private int resolvedColor;
 
-    UnresolvedContactViewHolder(View v) {
+    ContactViewHolder(View v) {
         super(v);
         unresolvedColor = v.getResources().getColor(R.color.colorDanger);
         resolvedColor = v.getResources().getColor(R.color.colorGood);
     }
 
-    public abstract void bind(UnresolvedContact contact);
+    public abstract void bind(Contact contact);
 
     int getResolvedColor() {return resolvedColor;}
     int getUnresolvedColor() {return unresolvedColor;}

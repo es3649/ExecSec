@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public class Message {
-    private boolean fromMe = false;
+    private boolean fromMe;
     private String messageContent;
     private Date time;
     private List<NLPIntent> inferredIntents;
@@ -29,7 +29,7 @@ public class Message {
     public void setMessageContent(String messageContent) {this.messageContent = messageContent;}
     public void setSuggestedResponse(String suggestedResponse) {this.suggestedResponse = suggestedResponse;}
 
-    public boolean isFromMe() {return fromMe;}
+    public boolean getFromMe() {return this.fromMe;}
     public List<NLPIntent> getIntents() {return inferredIntents;}
     public Date getTime() {return time;}
     public String getMessageContent() {return messageContent;}
