@@ -9,11 +9,13 @@ import com.es3649.execsec.R;
 import com.es3649.execsec.adapters.viewholder.AmbiguousContactViewHolder;
 import com.es3649.execsec.adapters.viewholder.NamelessContactViewHolder;
 import com.es3649.execsec.adapters.viewholder.NoMatchContactViewHolder;
-import com.es3649.execsec.adapters.viewholder.UnresolvedContactViewHolder;
+import com.es3649.execsec.adapters.viewholder.ContactViewHolder;
+import com.es3649.execsec.adapters.viewholder.ResolvedContactViewholder;
 import com.es3649.execsec.messaging.contact.AmbiguousContact;
 import com.es3649.execsec.messaging.contact.NamelessContact;
 import com.es3649.execsec.messaging.contact.NoMatchContact;
-import com.es3649.execsec.messaging.contact.UnresolvedContact;
+import com.es3649.execsec.messaging.contact.Contact;
+import com.es3649.execsec.messaging.contact.ResolvedContact;
 
 import java.util.List;
 
@@ -23,27 +25,28 @@ import java.util.List;
  * Created by es3649 on 4/30/19.
  */
 
-public class ContactResolutionAdapter extends RecyclerView.Adapter<UnresolvedContactViewHolder> {
+public class ContactResolutionAdapter extends RecyclerView.Adapter<ContactViewHolder> {
 
-    public ContactResolutionAdapter(List<UnresolvedContact> unresolvedContacts) {
-        this.unresolvedContacts = unresolvedContacts;
+    public ContactResolutionAdapter(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     private static final int NO_MATCH_CONTACT = 0;
     private static final int NAMELESS_CONTACT = 1;
     private static final int AMBIGUOUS_CONTACT = 2;
+    private static final int RESOLVED_CONTACT = 3;
     private static final String TAG = "ResolutionAdapter";
 
-    private List<UnresolvedContact> unresolvedContacts;
+    private List<Contact> contacts;
 
     @Override
     public int getItemCount() {
-        return unresolvedContacts.size();
+        return contacts.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        UnresolvedContact uc = unresolvedContacts.get(position);
+        Contact uc = contacts.get(position);
 
         if (uc instanceof NoMatchContact) {
             return NO_MATCH_CONTACT;
@@ -51,6 +54,8 @@ public class ContactResolutionAdapter extends RecyclerView.Adapter<UnresolvedCon
             return NAMELESS_CONTACT;
         } else if (uc instanceof AmbiguousContact) {
             return AMBIGUOUS_CONTACT;
+        } else if (uc instanceof ResolvedContact) {
+            return RESOLVED_CONTACT;
         } else {
             Log.e(TAG, "Illegal contact type!");
             throw new AssertionError("Illegal contact type!");
@@ -58,7 +63,7 @@ public class ContactResolutionAdapter extends RecyclerView.Adapter<UnresolvedCon
     }
 
     @Override
-    public UnresolvedContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         switch(viewType) {
@@ -71,6 +76,9 @@ public class ContactResolutionAdapter extends RecyclerView.Adapter<UnresolvedCon
         case AMBIGUOUS_CONTACT:
             return new AmbiguousContactViewHolder(
                     inflater.inflate(R.layout.resolve_conflict_viewholder, parent, false));
+        case RESOLVED_CONTACT:
+            return new ResolvedContactViewholder(
+                    inflater.inflate(R.layout.resolved_contact_viewholder, parent, false));
         default:
             Log.e(TAG, "Binding illegal contact type!");
             throw new AssertionError("Binding illegal contact type!");
@@ -78,8 +86,8 @@ public class ContactResolutionAdapter extends RecyclerView.Adapter<UnresolvedCon
     }
 
     @Override
-    public void onBindViewHolder(UnresolvedContactViewHolder holder, int position) {
+    public void onBindViewHolder(ContactViewHolder holder, int position) {
         // this should be the correct type, and this handled by onCreateViewHolder
-        holder.bind(unresolvedContacts.get(position));
+        holder.bind(contacts.get(position));
     }
 }

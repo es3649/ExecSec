@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 import com.es3649.execsec.R;
 import com.es3649.execsec.messaging.contact.NoMatchContact;
-import com.es3649.execsec.messaging.contact.UnresolvedContact;
+import com.es3649.execsec.messaging.contact.Contact;
 
 /**
  *
  * Created by es3649 on 5/1/19.
  */
 
-public class NoMatchContactViewHolder extends UnresolvedContactViewHolder {
+public class NoMatchContactViewHolder extends ContactViewHolder {
     private ConstraintLayout topLayout;
     private TextView nameTextView;
     private EditText phoneEditText;
@@ -31,7 +31,7 @@ public class NoMatchContactViewHolder extends UnresolvedContactViewHolder {
     }
 
     @Override
-    public void bind(UnresolvedContact contact) {
+    public void bind(Contact contact) {
         this.nmContact = (NoMatchContact)contact;
 
         topLayout.setBackgroundColor(getUnresolvedColor());

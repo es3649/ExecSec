@@ -10,7 +10,7 @@ import com.es3649.execsec.data.model.Person;
  * Created by es3649 on 4/30/19.
  */
 
-public class NoMatchContact extends UnresolvedContact {
+public class NoMatchContact extends Contact {
     public NoMatchContact(int idx, String name) {
         super(idx);
         this.name = name;

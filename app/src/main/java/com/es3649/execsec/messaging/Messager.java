@@ -22,8 +22,6 @@ public class Messager {
         this.ctx = ctx;
     }
 
-    private static final String FIRST_NAME_TAG = "%name";
-
     private Context ctx;
 
     /**
@@ -39,25 +37,4 @@ public class Messager {
         smsManager.sendTextMessage(number, null, message, pi, null);
     }
 
-    /**
-     * Does the hard work of replacing tags with values
-     *
-     * Currently supported tags are:
-     * `%name` -> person's first name
-     *
-     * @param text the text on which to make the replacements
-     * @param p the person whose info will be subbed in
-     * @return the modified text
-     */
-    public static String doReplacements(String text, Person p) {
-        StringBuilder sbText = new StringBuilder(text);
-
-        int pos = sbText.indexOf(FIRST_NAME_TAG);
-        while (pos > -1) {
-            sbText.replace(pos, pos + FIRST_NAME_TAG.length(), p.getName());
-            pos = sbText.indexOf(FIRST_NAME_TAG);
-        }
-
-        return sbText.toString();
-    }
 }

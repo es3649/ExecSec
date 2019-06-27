@@ -8,7 +8,7 @@ import com.es3649.execsec.data.model.Person;
  * Created by es3649 on 4/30/19.
  */
 
-public class AmbiguousContact extends UnresolvedContact {
+public class AmbiguousContact extends Contact {
     public AmbiguousContact(int idx, String name, Person[] personList) {
         super(idx);
         this.pList = personList;

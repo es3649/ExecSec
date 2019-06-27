@@ -61,14 +61,13 @@
     <string name="rnvhDescription">Add a name</string>
     <string name="rcvhDescription">Choose a name</string>
     <string name="rmvhDescription">Add a number</string>
-    <string name="rdfLabel">Failed Resolutions:</string>
-    <string name="rdfPositive">Finish</string>
-    <string name="rdfNegative">Cancel</string>
 
     <!-- Message Viewer strings  -->
     <string name="mvaSendButton">Send</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- ContactResolutionFragment (Prefix: 'crf' ) -->
+    <string name="crfBack">Back</string>
+    <string name="crfDone">Finish</string>
+    <string name="crfCancel">Cancel</string>
 
 </resources>

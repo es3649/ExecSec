@@ -5,20 +5,19 @@ import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.es3649.execsec.R;
 import com.es3649.execsec.messaging.contact.AmbiguousContact;
-import com.es3649.execsec.messaging.contact.UnresolvedContact;
+import com.es3649.execsec.messaging.contact.Contact;
 
 /**
  *
  * Created by es3649 on 4/30/19.
  */
 
-public class AmbiguousContactViewHolder extends UnresolvedContactViewHolder {
+public class AmbiguousContactViewHolder extends ContactViewHolder {
     public AmbiguousContactViewHolder(View v) {
         super(v);
 
@@ -36,7 +35,7 @@ public class AmbiguousContactViewHolder extends UnresolvedContactViewHolder {
     private AmbiguousContact abContact;
     private Context ctx;
 
-    public void bind(UnresolvedContact contact) {
+    public void bind(Contact contact) {
         abContact = (AmbiguousContact)contact;
 
         nameTextView.setText(abContact.getName());

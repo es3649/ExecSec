@@ -5,12 +5,11 @@ import com.es3649.execsec.data.model.Person;
 /**
  * An unresolved contact.
  *
- * It is implemented by
  * Created by es3649 on 4/30/19.
  */
 
-public abstract class UnresolvedContact {
-    UnresolvedContact(int idx) {
+public abstract class Contact {
+    Contact(int idx) {
         setResolved(false);
         resolution = null;
         index = idx;
