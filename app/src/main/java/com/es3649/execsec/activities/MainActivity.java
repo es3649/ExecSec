@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.es3649.execsec.R;
+import com.es3649.execsec.activities.settings.SettingsActivity;
 import com.es3649.execsec.messaging.UI.MessagerActivity;
 import com.es3649.execsec.model.Model;
 import com.joanzapata.iconify.IconDrawable;

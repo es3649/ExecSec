@@ -39,12 +39,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.settings.LoaderActivity"
-            android:label="@string/laLabel"
-            android:parentActivityName=".SettingsActivity" />
         <activity
-            android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity"
+            android:name=".activities.settings.SettingsActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:label="@string/setLabel" />
         <activity
             android:name=".messaging.UI.MessagerActivity"

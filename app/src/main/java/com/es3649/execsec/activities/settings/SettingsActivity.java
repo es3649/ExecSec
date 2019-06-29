@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.es3649.execsec.R;
 import com.es3649.execsec.data.database.DB_Proxy;
 import com.es3649.execsec.data.model.Person;
+import com.es3649.execsec.Secrets;
 import com.es3649.execsec.sheets.SheetsFetchTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -132,8 +133,12 @@ public class SettingsActivity extends AppCompatActivity
         for (List row : sheet) {
             try {
                 Person p = new Person((String)row.get(1), (String)row.get(0), (String)row.get(2));
-                db.stashPerson(p);
-                counter++;
+
+                if (p.isValid()) {
+                    db.stashPerson(p);
+                    counter++;
+                }
+
             } catch (Exception ex) {
                 Log.e(TAG, "Failed to add person: " + row.get(1) + "," + row.get(0), ex);
             }

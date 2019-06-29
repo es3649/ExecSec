@@ -66,6 +66,17 @@ public class Person {
         }
     }
 
+    /**
+     * Ensures that a person object is valid, nameless or numberless values are not valid
+     * @return true is every value is filled out correctly
+     */
+    public boolean isValid() {
+        return (name != null
+                && surname != null
+                && number != null
+                && PhoneNumberUtils.formatNumberToE164(number, US_COUNTRY_CODE) != null);
+    }
+
     @Override
     public String toString() {
         Gson g = new Gson();

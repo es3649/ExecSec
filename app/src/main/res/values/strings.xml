@@ -15,21 +15,6 @@
     <string name="tcfTransactionCount">Pending Transactions</string>
 
 
-    <!-- LoaderActivity strings (prefix: 'la' ) -->
-    <string name="laLabel">Load Data</string>
-    <string name="laIPAddress">IP Address:</string>
-    <string name="laPort">Port Number:</string>
-    <string name="laAuthentication">Authentication:</string>
-
-    <string name="laLoad">Load</string>
-    <string name="laLoading">Loading…</string>
-    <string name="laLoadStatus">Successfully loaded %d entries.\nFailed to load %d entries.\nTotal entries processed: %d</string>
-    <string name="laLoadError">Error loading data: %s</string>
-
-    <string name="laDefaultIP">192.168.1.197</string>
-    <string name="laDefaultPort">8080</string>
-
-
     <!-- SettingsActivity strings (prefix: 'set' ) -->
     <string name="setLabel">Settings</string>
     <string name="setLoadData">Load Data from server</string>
@@ -46,14 +31,17 @@
     <string name="menuTopSettingsButton">Settings</string>
     <string name="menuNewMessageButton">New Message</string>
 
+
     <!-- TransactionViewerActivity strings (prefix: 'tva' )
     <string name="tvaLabel">Transaction Details</string>
     <string name="tvaNoTransaction">No transaction provided</string>
     <string name="title_activity_message_view">MessageViewActivity</string> -->
 
+
     <!-- Messager Activity strings (Prefix: 'msg' ) -->
     <string name="msgLabel">New Message</string>
     <string name="msgSent">Message(s) sent!</string>
+
 
     <!-- Messager Fragment strings (Prefix: 'msgf' ) -->
     <string name="msgfSendButton">Send</string>
@@ -61,18 +49,22 @@
     <string name="msgfRecipients">Recipients</string>
     <string name="msgfMessageBody">Message Body</string>
 
+
     <!-- Contact Resolution View Holder strings (Prefixes: 'rnvh', 'rcvh', 'rmvh', 'rdf' ) -->
     <string name="rnvhDescription">Add a number</string>
     <string name="rcvhDescription">Choose a name</string>
     <string name="rmvhDescription">Add a name</string>
 
+
     <!-- Message Viewer strings  -->
     <string name="mvaSendButton">Send</string>
+
 
     <!-- ContactResolutionFragment (Prefix: 'crf' ) -->
     <string name="crfBack">Back</string>
     <string name="crfDone">Finish</string>
     <string name="crfCancel">Cancel</string>
+
 
     <!-- SheetsFetchTask strings (Prefix: 'sft' ) -->
     <string name="sftLoading">Loading…</string>
