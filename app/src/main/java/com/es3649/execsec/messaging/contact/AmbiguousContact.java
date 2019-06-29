@@ -19,7 +19,7 @@ public class AmbiguousContact extends Contact {
     private String name;
 
     public void resolve(int idx) {
-        if (idx < 0 || idx <= pList.length) {
+        if (idx < 0 || idx >= pList.length) {
             super.setPerson(null);
             super.setResolved(false);
             return;

@@ -1,4 +1,4 @@
-package com.es3649.execsec.adapters.viewholder;
+package com.es3649.execsec.messaging.UI.viewholder;
 
 import android.support.constraint.ConstraintLayout;
 import android.text.Editable;

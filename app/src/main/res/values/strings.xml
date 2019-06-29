@@ -36,7 +36,10 @@
     <string name="setClearContacts">Clear contacts</string>
     <string name="setSafety">Safety</string>
 
+    <string name="setNoNetworkWarning">No network connection found!</string>
+    <string name="setDBPopulated">Added %d of %d records to the database</string>
     <string name="setRecordsCleared">Deleted %d records</string>
+    <string name="setNeedGooglePlay">This functionality requires Google Play Services</string>
 
 
     <!-- Menu item string (prefix: 'menu' ) -->
@@ -50,6 +53,7 @@
 
     <!-- Messager Activity strings (Prefix: 'msg' ) -->
     <string name="msgLabel">New Message</string>
+    <string name="msgSent">Message(s) sent!</string>
 
     <!-- Messager Fragment strings (Prefix: 'msgf' ) -->
     <string name="msgfSendButton">Send</string>
@@ -69,5 +73,8 @@
     <string name="crfBack">Back</string>
     <string name="crfDone">Finish</string>
     <string name="crfCancel">Cancel</string>
+
+    <!-- SheetsFetchTask strings (Prefix: 'sft' ) -->
+    <string name="sftLoading">Loading…</string>
 
 </resources>

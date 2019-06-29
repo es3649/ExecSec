@@ -16,7 +16,7 @@ import java.util.Locale;
 
 public class Person {
     // TODO internationalize this, publish it as a setting
-    private static final String US_COUNTRY_CODE = "US";
+    public static final String US_COUNTRY_CODE = "US";
 
     /**
      * Constructs a new person object.
@@ -59,9 +59,10 @@ public class Person {
         Log.d(TAG, "Number: " + number);
         this.number = PhoneNumberUtils.formatNumberToE164(number, US_COUNTRY_CODE);
         Log.d(TAG, "After ToE164: " + this.number);
-        if (!PhoneNumberUtils.isWellFormedSmsAddress(this.getNumber())) {
-            Log.e(TAG, String.format("The phone number `%s` is not dialable!",
+        if (this.number != null && !PhoneNumberUtils.isWellFormedSmsAddress(this.getNumber())) {
+            Log.e(TAG, String.format("The phone number `%s` is not dialable! Going back to null",
                     this.getNumber()));
+            this.number = null;
         }
     }
 

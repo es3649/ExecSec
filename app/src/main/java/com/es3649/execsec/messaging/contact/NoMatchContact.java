@@ -20,7 +20,7 @@ public class NoMatchContact extends Contact {
 
     public boolean resolve(String number) {
 
-        if (PhoneNumberUtils.isWellFormedSmsAddress(number)) {
+        if (number != null && PhoneNumberUtils.formatNumberToE164(number, Person.US_COUNTRY_CODE) != null) {
             Person p = new Person(name, null, number);
             super.setPerson(p);
             super.setResolved(true);
