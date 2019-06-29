@@ -1,4 +1,4 @@
-package com.es3649.execsec.adapters.viewholder;
+package com.es3649.execsec.messaging.UI.viewholder;
 
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
@@ -46,7 +46,7 @@ public class AmbiguousContactViewHolder extends ContactViewHolder {
             nameList[i] = abContact.getPersonList()[i].getFullName();
         }
 
-        optionSpinner.setAdapter(new ArrayAdapter<String>(ctx,
+        optionSpinner.setAdapter(new ArrayAdapter<>(ctx,
                 android.R.layout.simple_spinner_dropdown_item, nameList));
 
         optionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

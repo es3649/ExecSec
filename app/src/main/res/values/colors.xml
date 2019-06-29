@@ -9,8 +9,8 @@
     <color name="colorAccentLight">#E9EDDE</color>
 
     <!-- colors for the contact resolution, (resolved or no) -->
-    <color name="colorDanger">#FFA0C0</color>
-    <color name="colorGood">#A0FFC0</color>
+    <color name="colorDanger">#FFE0E0</color>
+    <color name="colorGood">#E0FFE0</color>
 
     <!-- text style color -->
     <color name="colorTextDark">@color/colorPrimaryDark</color>

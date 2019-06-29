@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.es3649.execsec.R;
-import com.es3649.execsec.adapters.ContactResolutionAdapter;
 import com.es3649.execsec.data.model.Person;
 import com.es3649.execsec.messaging.contact.Contact;
 
@@ -27,8 +26,8 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class ContactResolutionFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    private static final String TAG = "ContactResolutionFrag";
     private static final String ARG_RECIPIENTS = "recipients";
     private static final String ARG_MESSAGE = "message";
 
@@ -37,7 +36,6 @@ public class ContactResolutionFragment extends Fragment {
     private String mMessage;
     private List<Contact> contactList;
 
-    private RecyclerView rcv;
     private LinearLayoutManager linLay;
 
     private Listener mListener;
@@ -90,7 +88,7 @@ public class ContactResolutionFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_contact_resolution, container, false);
 
         // wire some things up. There should be a recycler view
-        rcv = v.findViewById(R.id.crfRecycler);
+        RecyclerView rcv = v.findViewById(R.id.crfRecycler);
 
         // TODO build the contacts list
         contactList = mListener.getContacts(mRecipients);
@@ -168,7 +166,8 @@ public class ContactResolutionFragment extends Fragment {
 
         for (int i = 0; i < contactList.size(); i++) {
             if (!contactList.get(i).isResolved()) {
-                // TODO it would be good to toast here
+
+                Log.i(TAG, "Not continuing because of unresolved contacts");
                 return;
             }
 

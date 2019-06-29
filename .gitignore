@@ -11,3 +11,6 @@
 csvserver/src/main/java/com/es3649/csvserver/password
 csvserver/src/main/java/com/es3649/csvserver/file.csv
 *.class
+
+# sheets api credentials
+app/src/main/java/com/es3649/execsec/Secrets.java

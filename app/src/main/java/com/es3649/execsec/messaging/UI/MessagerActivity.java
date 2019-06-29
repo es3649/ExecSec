@@ -70,7 +70,7 @@ public class MessagerActivity extends AppCompatActivity
         db = new DB_Proxy(this);
 
         // TODO separate the recipientList, then move to the contact
-        // TODO | resolution fragment. Also start a dbProxy at this time
+        //  resolution fragment. Also start a dbProxy at this time
         ContactResolutionFragment frag = ContactResolutionFragment.newInstance(recipientNameList, message);
 
         FragmentManager fm = getSupportFragmentManager();
@@ -80,9 +80,10 @@ public class MessagerActivity extends AppCompatActivity
     // OVERRIDE METHODS FOR ContactResolutionFragment.Listener
     @Override
     public void sendMessages(List<Person> recipients, List<String> messages) {
-        // TODO add argument list
-        // TODO do the real work, for each message to send, send it
-        Toast.makeText(this, "Sending!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.msgfSending), Toast.LENGTH_SHORT).show();
+
+        sendMessage(recipients, messages);
+        finish();
     }
 
     @Override
@@ -94,8 +95,16 @@ public class MessagerActivity extends AppCompatActivity
     @Override
     public void back() {
         // TODO swap back to the previous fragment
+        //  this means that we need to save the message
+        //  and recipients string to rebuild the old frag
     }
 
+    /**
+     *
+     * @param recipients the list of names/numbers given in the recipients box
+     * @return a list of contacts (resolved or not) corresponding to the recipients in
+     * the recipient list
+     */
     @Override
     public List<Contact> getContacts(List<String> recipients) {
         if (db == null) {
@@ -108,7 +117,7 @@ public class MessagerActivity extends AppCompatActivity
 
             // check if the recipient is a well foremed SMS address
             if (PhoneNumberUtils.isWellFormedSmsAddress(recipients.get(i))) {
-                // then we can quite easilt look it up directly
+                // then we can quite easily look it up directly
                 Log.d(TAG, "Recipient is well formed SMS: " + recipients.get(i));
                 Person p = db.lookupPerson(recipients.get(i));
 
@@ -133,7 +142,6 @@ public class MessagerActivity extends AppCompatActivity
                 } else {
                     contacts.add(new AmbiguousContact(i, recipients.get(i), pList));
                 }
-
             }
         }
 
@@ -141,7 +149,11 @@ public class MessagerActivity extends AppCompatActivity
     }
 
     /**
-     * Sends the message(s)
+     * Sends the message
+     *
+     * @param pList the list of people to send the message to
+     * @param messageList the list of messages, these elements should correspond exactly
+     *                    to the entries in the pList
      */
     private void sendMessage(List<Person> pList, List<String> messageList) {
         if (pList.size() != messageList.size()) {

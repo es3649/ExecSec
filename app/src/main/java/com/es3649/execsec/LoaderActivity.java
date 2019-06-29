@@ -16,6 +16,7 @@ import com.es3649.execsec.data.database.DB_Loader;
 import com.es3649.execsec.data.database.LoadResult;
 import com.es3649.execsec.serverproxy.ServerAccessException;
 import com.es3649.execsec.serverproxy.ServerProxy;
+import com.es3649.execsec.sheets.SheetsFetchTask;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -56,9 +57,8 @@ public class LoaderActivity extends AppCompatActivity {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new LoadDataAsync().execute(IPEditText.getText().toString(),
-                        portEditText.getText().toString(),
-                        authEditText.getText().toString());
+                Log.d(TAG, "Load Button Pressed");
+//                new SheetsFetchTask().execute(getApplicationContext());
             }
         });
     }
@@ -127,7 +127,7 @@ public class LoaderActivity extends AppCompatActivity {
             TextView errorTextView = findViewById(R.id.laErrorTextView);
             errorTextView.setText(result.getError());
             errorTextView.setVisibility(View.VISIBLE);
-            Log.d(TAG, "laErrorTextView should be visible");
+            Log.d(TAG, "ErrorTextView should be visible");
         }
     }
 
