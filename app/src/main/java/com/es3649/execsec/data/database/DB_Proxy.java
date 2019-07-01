@@ -432,9 +432,10 @@ public class DB_Proxy {
         // return empty is no results
         if(cursor.getCount() == 0) return result;
 
-        do {
+        for (int i = 0; i < cursor.getCount(); i++) {
+            cursor.moveToNext();
             result.add(new Group(cursor.getString(1), cursor.getString(2), cursor.getInt(0)));
-        } while (cursor.moveToNext());
+        }
 
         cursor.close();
         return result;

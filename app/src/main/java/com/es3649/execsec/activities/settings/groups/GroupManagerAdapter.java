@@ -17,9 +17,11 @@ class GroupManagerAdapter extends RecyclerView.Adapter<GroupViewHolder> {
 
     GroupManagerAdapter(List<Group> groupList, DB_Proxy db) {
     this.groupList = groupList;
+    this.db = db;
     }
 
-    void newGroup(Group g) {
+    void newGroup() {
+        Group g = new Group("","",-1);
         groupList.add(g);
         db.stashGroup(g);
         notifyDataSetChanged();

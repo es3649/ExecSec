@@ -43,10 +43,15 @@
             android:name=".activities.settings.SettingsActivity"
             android:label="@string/setLabel"
             android:parentActivityName=".MainActivity" />
+
         <activity
             android:name=".messaging.UI.MessagerActivity"
             android:label="@string/msgLabel" />
-        <activity android:name=".viewers.MessageViewActivity" />
+
+        <activity
+            android:name=".viewers.MessageViewActivity"
+            android:label="@string/gmaLabel"
+            android:parentActivityName=".activities.settings.SettingsActivity"/>
     </application>
 
 </manifest>

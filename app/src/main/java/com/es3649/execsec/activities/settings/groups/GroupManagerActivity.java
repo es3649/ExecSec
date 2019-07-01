@@ -64,7 +64,7 @@ public class GroupManagerActivity extends AppCompatActivity {
             return true;
 
         case R.id.gmaNemuNew:
-            gma.newGroup(new Group("", ""));
+            gma.newGroup();
             return true;
 
         default:
@@ -72,6 +72,7 @@ public class GroupManagerActivity extends AppCompatActivity {
         }
     }
 
+    // TODO this is not working
     @Override
     protected void onStop() {
         super.onStop();

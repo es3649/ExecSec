@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
+    <!-- TODO this should probably all just go in a grid layout
+          same as the Login fragment, which also needs to be implemented
+          The delete button can stay where it is, though -->
     <LinearLayout
         android:id="@+id/gmvhTextLay"
         android:orientation="vertical"
@@ -53,6 +55,7 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <!-- this is a delete button -->
+    <!-- TODO this button is butt ugly tbh -->
     <Button
         android:id="@+id/gmvhDeleteButton"
         android:layout_width="wrap_content"

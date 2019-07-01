@@ -75,7 +75,7 @@ class DB_Helper extends SQLiteOpenHelper {
         // construct group table
         sqLiteDatabase.execSQL(
                 String.format("CREATE TABLE %s (" +
-                        "%s INT NOT NULL AUTOINCREMENT," +
+                        "%s INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                         "%s TEXT NOT NULL," +
                         "%s TEXT NOT NULL)", GROUP_TABLE_NAME,
                         G_PKEY_ID, G_NAME, G_RANGE)
