@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.es3649.execsec.data.model.Group;
 import com.es3649.execsec.data.model.Person;
 import com.es3649.execsec.nlp.conversationmanager.ScheduleTransaction;
 
@@ -410,5 +411,82 @@ public class DB_Proxy {
 
         cursor.close();
         return result;
+    }
+
+    //-------------------------------------//
+    //---------- Group Functions ----------//
+    //-------------------------------------//
+
+    /**
+     * @return all of the group entries from the DB
+     */
+    public List<Group> getAllGroups() {
+        String[] projection = {DB_Helper.G_PKEY_ID, DB_Helper.G_NAME, DB_Helper.G_RANGE};
+
+        SQLiteDatabase db = new DB_Helper(context).getReadableDatabase();
+        Cursor cursor = db.query(DB_Helper.GROUP_TABLE_NAME, projection,
+                null, null, null, null, null);
+
+        List<Group> result = new ArrayList<>();
+
+        // return empty is no results
+        if(cursor.getCount() == 0) return result;
+
+        do {
+            result.add(new Group(cursor.getString(1), cursor.getString(2), cursor.getInt(0)));
+        } while (cursor.moveToNext());
+
+        cursor.close();
+        return result;
+    }
+
+    /**
+     * @param g the group to stash, the internal id is ignored
+     */
+    public void stashGroup(Group g) {
+        SQLiteDatabase db = new DB_Helper(context).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(DB_Helper.G_NAME, g.getName());
+        values.put(DB_Helper.G_RANGE, g.getName());
+
+        long idx = db.insert(DB_Helper.GROUP_TABLE_NAME, null, values);
+
+        g = new Group(g.getName(), g.getRange(), idx);
+    }
+
+    /**
+     * Deletes a group from the database (given the groupID)
+     * @param g the group to delete
+     * @return the number of entries deleted
+     */
+    public int deleteGroup(Group g) {
+        SQLiteDatabase db = new DB_Helper(context).getWritableDatabase();
+
+        String whereClause = DB_Helper.G_PKEY_ID + " = ?";
+        String[] whereParams = { Long.toString(g.getId()) };
+
+        return db.delete(DB_Helper.GROUP_TABLE_NAME, whereClause, whereParams);
+    }
+
+    /**
+     * Updates the group with the ID of the given group to contain the data
+     * in this group
+     * @param g the group to update (with updated information)
+     * @return the number of entries updated
+     */
+    public int updateGroups(Group g) {
+        SQLiteDatabase db = new DB_Helper(context).getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(DB_Helper.G_NAME, g.getName());
+        values.put(DB_Helper.G_RANGE, g.getRange());
+        values.put(DB_Helper.G_PKEY_ID, g.getId());
+
+        String whereClause = DB_Helper.G_PKEY_ID + " = ?";
+        String[] whereParams = { Long.toString(g.getId()) };
+
+        return db.update(DB_Helper.GROUP_TABLE_NAME, values, whereClause, whereParams);
     }
 }

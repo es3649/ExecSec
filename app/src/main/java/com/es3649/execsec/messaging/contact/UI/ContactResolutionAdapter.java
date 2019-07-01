@@ -1,4 +1,4 @@
-package com.es3649.execsec.messaging.UI;
+package com.es3649.execsec.messaging.contact.UI;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.es3649.execsec.R;
-import com.es3649.execsec.messaging.UI.viewholder.AmbiguousContactViewHolder;
-import com.es3649.execsec.messaging.UI.viewholder.NamelessContactViewHolder;
-import com.es3649.execsec.messaging.UI.viewholder.NoMatchContactViewHolder;
-import com.es3649.execsec.messaging.UI.viewholder.ContactViewHolder;
-import com.es3649.execsec.messaging.UI.viewholder.ResolvedContactViewholder;
+import com.es3649.execsec.messaging.contact.UI.AmbiguousContactViewHolder;
+import com.es3649.execsec.messaging.contact.UI.NamelessContactViewHolder;
+import com.es3649.execsec.messaging.contact.UI.NoMatchContactViewHolder;
+import com.es3649.execsec.messaging.contact.UI.ContactViewHolder;
+import com.es3649.execsec.messaging.contact.UI.ResolvedContactViewholder;
 import com.es3649.execsec.messaging.contact.AmbiguousContact;
 import com.es3649.execsec.messaging.contact.NamelessContact;
 import com.es3649.execsec.messaging.contact.NoMatchContact;

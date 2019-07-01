@@ -18,6 +18,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.es3649.execsec.R;
+import com.es3649.execsec.activities.settings.groups.GroupManagerActivity;
 import com.es3649.execsec.data.database.DB_Proxy;
 import com.es3649.execsec.data.model.Person;
 import com.es3649.execsec.Secrets;
@@ -64,6 +65,14 @@ public class SettingsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        findViewById(R.id.setGroupsLinLay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), GroupManagerActivity.class);
+                startActivity(i);
+            }
+        });
 
         findViewById(R.id.setLoadLinLay).setOnClickListener(new View.OnClickListener() {
             @Override

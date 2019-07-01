@@ -17,6 +17,7 @@
 
     <!-- SettingsActivity strings (prefix: 'set' ) -->
     <string name="setLabel">Settings</string>
+    <string name="setManageGroups">Manage Groups</string>
     <string name="setLoadData">Load Data from server</string>
     <string name="setClearContacts">Clear contacts</string>
     <string name="setSafety">Safety</string>
@@ -68,5 +69,18 @@
 
     <!-- SheetsFetchTask strings (Prefix: 'sft' ) -->
     <string name="sftLoading">Loading…</string>
+
+    <!-- GroupManagerActivity strings (Prefix: 'gma' ) -->
+    <string name="gmaLabel">Group Manager</string>
+    <string name="gmaAddGroup">Add Group</string>
+    <string name="gmaSave">Save</string>
+
+    <string name="gmaMenuSave">Save</string>
+    <string name="gmaMenuNew">New</string>
+
+    <!-- GroupManagerViewHolder strings (Prefix: 'gmvh' ) -->
+    <string name="gmvhGroupName">Name</string>
+    <string name="gmvhGroupRange">Range</string>
+    <string name="gmvhDelete">X</string>
 
 </resources>

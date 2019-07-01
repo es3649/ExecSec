@@ -28,6 +28,11 @@ class DB_Helper extends SQLiteOpenHelper {
     static final String A_NUMBER_COLUMN_ID = "a_number";
     static final String A_BLOB_COL_ID = "a_json_blob";
 
+    static final String GROUP_TABLE_NAME = "com_es3649_execsec_tbl_groups";
+    static final String G_PKEY_ID = "g_pkey";
+    static final String G_NAME = "g_name";
+    static final String G_RANGE = "g_range";
+
 
     DB_Helper(Context ctx) {
         super(ctx, DB_NAME, null, VERSION);
@@ -40,6 +45,7 @@ class DB_Helper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PERSON_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TRANSACTION_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ARCHIVE_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + GROUP_TABLE_NAME);
         // construct person table
         sqLiteDatabase.execSQL(
                 String.format("CREATE TABLE %s (" +
@@ -65,6 +71,15 @@ class DB_Helper extends SQLiteOpenHelper {
                                 "%s TEXT NOT NULL)", ARCHIVE_TABLE_NAME,
                         A_PKEY_ID, A_NUMBER_COLUMN_ID, A_BLOB_COL_ID)
         );
+
+        // construct group table
+        sqLiteDatabase.execSQL(
+                String.format("CREATE TABLE %s (" +
+                        "%s INT NOT NULL AUTOINCREMENT," +
+                        "%s TEXT NOT NULL," +
+                        "%s TEXT NOT NULL)", GROUP_TABLE_NAME,
+                        G_PKEY_ID, G_NAME, G_RANGE)
+        );
     }
 
     @Override
@@ -73,6 +88,7 @@ class DB_Helper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PERSON_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TRANSACTION_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ARCHIVE_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + GROUP_TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 

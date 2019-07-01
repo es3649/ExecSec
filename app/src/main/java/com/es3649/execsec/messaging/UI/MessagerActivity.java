@@ -17,6 +17,7 @@ import com.es3649.execsec.messaging.contact.NamelessContact;
 import com.es3649.execsec.messaging.contact.NoMatchContact;
 import com.es3649.execsec.messaging.contact.Contact;
 import com.es3649.execsec.messaging.contact.ResolvedContact;
+import com.es3649.execsec.messaging.contact.UI.ContactResolutionFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;

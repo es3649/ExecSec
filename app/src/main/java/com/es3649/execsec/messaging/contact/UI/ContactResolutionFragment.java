@@ -1,4 +1,4 @@
-package com.es3649.execsec.messaging.UI;
+package com.es3649.execsec.messaging.contact.UI;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,10 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * ContactResolutionFragment exists to provide confirmation for the recipients of a message
+ * before sending it off. It also gives the user a chance to correct ambiguities that the
+ * system detects in the input.
+ *
  * Activities that contain this fragment must implement the
- * {@link Listener} interface
- * to handle interaction events.
+ * {@link Listener} interface to handle interaction events.
+ *
  * Use the {@link ContactResolutionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -31,7 +34,6 @@ public class ContactResolutionFragment extends Fragment {
     private static final String ARG_RECIPIENTS = "recipients";
     private static final String ARG_MESSAGE = "message";
 
-    // TODO: Rename and change types of parameters
     private ArrayList<String> mRecipients;
     private String mMessage;
     private List<Contact> contactList;
@@ -54,7 +56,6 @@ public class ContactResolutionFragment extends Fragment {
      * @param message the message to send
      * @return A new instance of fragment ContactResolutionFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ContactResolutionFragment newInstance(
             ArrayList<String> recipients, String message) {
 
@@ -90,7 +91,6 @@ public class ContactResolutionFragment extends Fragment {
         // wire some things up. There should be a recycler view
         RecyclerView rcv = v.findViewById(R.id.crfRecycler);
 
-        // TODO build the contacts list
         contactList = mListener.getContacts(mRecipients);
 
         rcv.setAdapter(new ContactResolutionAdapter(contactList));
@@ -144,6 +144,8 @@ public class ContactResolutionFragment extends Fragment {
     /**
      * Constructs the message.
      * It can be as intense as making tag replacements for '%name' and such
+     * TODO once we implement message previews, add this message back in.
+     *  For now, '%' insertion tags won't work at all
      *
      * @param p the person the message goes to
      * @return the final text of the message

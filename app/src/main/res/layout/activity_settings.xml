@@ -12,10 +12,33 @@
         android:layout_marginEnd="5dp">
 
         <LinearLayout
+            android:id="@+id/setGroupsLinLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:background="@color/colorPrimaryLighter"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextDark"
+                android:text="@string/setManageGroups"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimaryDark" />
+
+        <LinearLayout
             android:id="@+id/setLoadLinLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:padding="5dp"
             android:background="@color/colorPrimaryLighter"
             android:layout_marginTop="5dp">
 
@@ -37,6 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:padding="5dp"
             android:background="@color/colorPrimaryLighter"
             android:layout_marginTop="5dp">
 

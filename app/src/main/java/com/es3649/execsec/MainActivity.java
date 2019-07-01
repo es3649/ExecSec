@@ -1,4 +1,4 @@
-package com.es3649.execsec.activities;
+package com.es3649.execsec;
 
 import android.Manifest;
 import android.content.Context;
@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.es3649.execsec.R;
+import com.es3649.execsec.activities.LoginFragment;
+import com.es3649.execsec.activities.TransactionCountFragment;
 import com.es3649.execsec.activities.settings.SettingsActivity;
 import com.es3649.execsec.messaging.UI.MessagerActivity;
 import com.es3649.execsec.model.Model;
