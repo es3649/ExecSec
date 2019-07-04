@@ -25,4 +25,9 @@ public class Group {
     public String getRange() { return range; }
     public void setRange(String range) { this.range = range; }
     public long getId() { return id; }
+
+    public boolean empty() {
+        return (name == null || name.isEmpty())
+                && (range == null || range.isEmpty());
+    }
 }

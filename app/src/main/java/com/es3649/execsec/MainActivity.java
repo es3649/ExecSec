@@ -23,6 +23,7 @@ import com.es3649.execsec.activities.LoginFragment;
 import com.es3649.execsec.activities.TransactionCountFragment;
 import com.es3649.execsec.activities.settings.SettingsActivity;
 import com.es3649.execsec.messaging.UI.MessagerActivity;
+import com.es3649.execsec.messaging.groups.GroupMessagerActivity;
 import com.es3649.execsec.model.Model;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
@@ -86,6 +87,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
                     new IconDrawable(this, FontAwesomeIcons.fa_pencil_square)
                     .colorRes(R.color.colorPrimaryLighter)
                     .actionBarSize());
+
+            menu.findItem(R.id.menuMessageGroup).setIcon(
+                    new IconDrawable(this, FontAwesomeIcons.fa_users)
+                    .colorRes(R.color.colorPrimaryLighter)
+                    .actionBarSize());
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -103,8 +109,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
             startActivity(new Intent(this, MessagerActivity.class));
             return true;
 
+        case R.id.menuMessageGroup:
+            startActivity(new Intent(this, GroupMessagerActivity.class));
+            return true;
+
         default:
-            Log.e(TAG, "bad menu choice");
+            Log.e(TAG, "bad (or super) menu choice");
             return super.onOptionsItemSelected(item);
         }
 

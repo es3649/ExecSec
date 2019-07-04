@@ -10,7 +10,7 @@ import com.es3649.execsec.data.model.Group;
 
 import java.util.List;
 
-class GroupManagerAdapter extends RecyclerView.Adapter<GroupViewHolder> {
+class GroupManagerAdapter extends RecyclerView.Adapter<EditableGroupViewHolder> {
 
     private List<Group> groupList;
     private DB_Proxy db;
@@ -44,10 +44,10 @@ class GroupManagerAdapter extends RecyclerView.Adapter<GroupViewHolder> {
     }
 
     @Override
-    public GroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EditableGroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater lif = LayoutInflater.from(parent.getContext());
-        return new GroupViewHolder(lif.inflate(R.layout.viewholder_group_manager, parent, false),
-                new GroupViewHolder.DeleteListener() {
+        return new EditableGroupViewHolder(lif.inflate(R.layout.viewholder_group_manager, parent, false),
+                new EditableGroupViewHolder.DeleteListener() {
                     @Override
                     public void delete(int i) {
                         deleteGroup(i);
@@ -56,7 +56,7 @@ class GroupManagerAdapter extends RecyclerView.Adapter<GroupViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(GroupViewHolder holder, int position) {
+    public void onBindViewHolder(EditableGroupViewHolder holder, int position) {
         holder.bind(groupList.get(position), position);
     }
 }

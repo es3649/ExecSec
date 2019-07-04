@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,6 +17,8 @@ import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import java.util.List;
 
 public class GroupManagerActivity extends AppCompatActivity {
+
+    private static final String TAG = "GroupManagerActivity";
 
     private GroupManagerAdapter gma;
 
@@ -76,6 +79,7 @@ public class GroupManagerActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d(TAG, "Stopping...");
 
         saveGroups();
     }
@@ -84,7 +88,12 @@ public class GroupManagerActivity extends AppCompatActivity {
         DB_Proxy db = new DB_Proxy(this);
 
         for (Group g : gma.getGroupList()) {
-            db.updateGroups(g);
+            if (!g.empty()) {
+                db.updateGroups(g);
+            } else {
+                // this might cause a crash if the group has id = -1
+                db.deleteGroup(g);
+            }
         }
     }
 }

@@ -31,6 +31,7 @@
     <!-- Menu item string (prefix: 'menu' ) -->
     <string name="menuTopSettingsButton">Settings</string>
     <string name="menuNewMessageButton">New Message</string>
+    <string name="menuMessageGroup">Message Group</string>
 
 
     <!-- TransactionViewerActivity strings (prefix: 'tva' )
@@ -70,17 +71,25 @@
     <!-- SheetsFetchTask strings (Prefix: 'sft' ) -->
     <string name="sftLoading">Loading…</string>
 
+
     <!-- GroupManagerActivity strings (Prefix: 'gma' ) -->
-    <string name="gmaLabel">Group Manager</string>
+    <string name="gmaLabel">Manage Groups</string>
     <string name="gmaAddGroup">Add Group</string>
     <string name="gmaSave">Save</string>
 
     <string name="gmaMenuSave">Save</string>
     <string name="gmaMenuNew">New</string>
 
+
     <!-- GroupManagerViewHolder strings (Prefix: 'gmvh' ) -->
-    <string name="gmvhGroupName">Name</string>
-    <string name="gmvhGroupRange">Range</string>
+    <string name="gmvhGroupName">Name:</string>
+    <string name="gmvhGroupRange">Range:</string>
     <string name="gmvhDelete">X</string>
+
+    <string name="sgmvhSelect">Select</string>
+
+
+    <!-- GroupMessager strings (Prefix: 'gmsg' ) -->
+    <string name="gmsgLabel">Group Messager</string>
 
 </resources>

@@ -27,8 +27,8 @@ public class MessagerActivity extends AppCompatActivity
         implements MessagerFragment.Listener, ContactResolutionFragment.Listener {
 
     private static final String TAG = "MessagerActivity";
-    private static final String ARG_RECIPIENTS = "recipients";
-    private static final String ARG_MESSAGE = "message";
+    public static final String ARG_RECIPIENTS = "recipients";
+    public static final String ARG_MESSAGE = "message";
 
     private DB_Proxy db = null;
 

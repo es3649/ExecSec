@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- TODO this should probably all just go in a grid layout
+          same as the Login fragment, which also needs to be implemented
+          The delete button can stay where it is, though -->
+    <GridLayout
+        android:id="@+id/sgmvhTextLay"
+        android:columnCount="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/gmvhDeleteButton" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextDark"
+            android:layout_gravity="end|center_vertical"
+            android:labelFor="@id/sgmvhGroupName"
+            android:text="@string/gmvhGroupName" />
+
+        <TextView
+            android:id="@+id/sgmvhGroupName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/gmvhTextLay"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/gmvhGroupRange"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextDark"
+            android:layout_gravity="end|center_vertical"
+            android:labelFor="@id/sgmvhGroupRange"
+            android:text="@string/gmvhGroupRange" />
+
+        <TextView
+            android:id="@+id/sgmvhGroupRange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/sgmvhTextLay"
+            app:layout_constraintTop_toBottomOf="@id/sgmvhGroupName"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </GridLayout>
+
+    <!-- this is a delete button -->
+    <!-- TODO this button is butt ugly tbh -->
+    <Button
+        android:id="@+id/sgmvhButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sgmvhSelect"
+        style="@style/ButtonDark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

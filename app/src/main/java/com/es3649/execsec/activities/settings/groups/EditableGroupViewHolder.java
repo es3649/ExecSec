@@ -10,7 +10,7 @@ import android.widget.EditText;
 import com.es3649.execsec.R;
 import com.es3649.execsec.data.model.Group;
 
-class GroupViewHolder extends RecyclerView.ViewHolder {
+class EditableGroupViewHolder extends RecyclerView.ViewHolder {
     private EditText name;
     private EditText range;
     private Group group;
@@ -21,7 +21,7 @@ class GroupViewHolder extends RecyclerView.ViewHolder {
         void delete(int i);
     }
 
-    GroupViewHolder(View v, DeleteListener dListener) {
+    EditableGroupViewHolder(View v, DeleteListener dListener) {
         super(v);
 
         this.dListener = dListener;
@@ -32,15 +32,18 @@ class GroupViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    void bind(Group g, final int pos) {
+    public void bind(Group g, final int pos) {
         name.setText(g.getName());
         range.setText(g.getRange());
         this.group = g;
 
         name.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -50,8 +53,11 @@ class GroupViewHolder extends RecyclerView.ViewHolder {
 
         range.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
