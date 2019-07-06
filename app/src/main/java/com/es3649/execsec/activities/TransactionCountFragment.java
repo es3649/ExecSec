@@ -1,4 +1,4 @@
-package com.es3649.execsec;
+package com.es3649.execsec.activities;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.es3649.execsec.R;
 import com.es3649.execsec.model.Model;
 
 import java.util.Locale;

@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:title="@string/menuMessageGroup"
+        android:id="@+id/menuMessageGroup"
+        app:showAsAction="ifRoom" />
+
     <item android:title="@string/menuNewMessageButton"
         android:id="@+id/menuNewMessageButton"
         app:showAsAction="ifRoom" />

@@ -4,8 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.Toast;
 
 import com.es3649.execsec.R;
@@ -17,6 +19,7 @@ import com.es3649.execsec.messaging.contact.NamelessContact;
 import com.es3649.execsec.messaging.contact.NoMatchContact;
 import com.es3649.execsec.messaging.contact.Contact;
 import com.es3649.execsec.messaging.contact.ResolvedContact;
+import com.es3649.execsec.messaging.contact.UI.ContactResolutionFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,8 +29,8 @@ public class MessagerActivity extends AppCompatActivity
         implements MessagerFragment.Listener, ContactResolutionFragment.Listener {
 
     private static final String TAG = "MessagerActivity";
-    private static final String ARG_RECIPIENTS = "recipients";
-    private static final String ARG_MESSAGE = "message";
+    public static final String ARG_RECIPIENTS = "recipients";
+    public static final String ARG_MESSAGE = "message";
 
     private DB_Proxy db = null;
 
@@ -42,9 +45,16 @@ public class MessagerActivity extends AppCompatActivity
 
         // Check intent for data and populate the fragment
         if (savedInstanceState != null) {
+            Log.d(TAG, "Taking data from savedInstanceState");
             recipients = savedInstanceState.getString(ARG_RECIPIENTS, "");
             message = savedInstanceState.getString(ARG_MESSAGE, "");
+        } else {
+            Log.d(TAG, "Taking data from Intent");
+            recipients = getIntent().getStringExtra(ARG_RECIPIENTS);
+            message = getIntent().getStringExtra(ARG_MESSAGE);
         }
+
+        Log.d(TAG, String.format("Putting Recipients: %s Message: %s", recipients, message));
 
         // add the fragment
         MessagerFragment mf = MessagerFragment.newInstance(recipients, message);
@@ -67,7 +77,7 @@ public class MessagerActivity extends AppCompatActivity
         ArrayList<String> recipientNameList = new ArrayList<String>(
                 Arrays.asList(recipientList.split(" *[,;\n]+ *")));
 
-        db = new DB_Proxy(this);
+        this.db = new DB_Proxy(this);
 
         // TODO separate the recipientList, then move to the contact
         //  resolution fragment. Also start a dbProxy at this time
@@ -123,9 +133,10 @@ public class MessagerActivity extends AppCompatActivity
 
                 if (p == null) {
                     contacts.add(new NamelessContact(i, recipients.get(i)));
+                } else {
+                    contacts.add(new ResolvedContact(p, i));
                 }
 
-                contacts.add(new ResolvedContact(p, i));
 
             // then it was a name, look it up with resolution
             } else {

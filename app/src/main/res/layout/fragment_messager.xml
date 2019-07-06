@@ -26,13 +26,22 @@
             android:id="@+id/msgfRecipients"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:maxLines="4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/msgfRecipientsLabel"/>
+            app:layout_constraintTop_toBottomOf="@id/msgfRecipientsLabel"
+            app:layout_constraintBottom_toTopOf="@id/msgfMessageBodyLabel"/>
+
+        <!--<Spinner
+            android:id="@+id/msgfSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/msgfRecipients"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/msgfRecipientsLabel"/>-->
 
         <TextView
             android:id="@+id/msgfMessageBodyLabel"

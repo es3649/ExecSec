@@ -8,10 +8,18 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.es3649.execsec.R;
+import com.es3649.execsec.data.database.DB_Proxy;
+import com.es3649.execsec.data.model.Group;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +43,8 @@ public class MessagerFragment extends Fragment {
     private Button sendButton;
 
     private Listener mListener;
+//    private ArrayAdapter<String> arrayAdapter;
+//    private List<Group> groupList;
 
     public MessagerFragment() {
         // Required empty public constructor
@@ -101,10 +111,17 @@ public class MessagerFragment extends Fragment {
         messageBodyEditText.addTextChangedListener(tw);
 
         // TODO check intent for data and populate the EditTexts
-        if (savedInstanceState != null) {
-            recipientsEditText.setText(mRecipients);
-            messageBodyEditText.setText(mMessage);
-        }
+        recipientsEditText.setText(mRecipients);
+        messageBodyEditText.setText(mMessage);
+
+//        Spinner groupChooser = v.findViewById(R.id.msgfSpinner);
+//        groupChooser.setAdapter(arrayAdapter);
+//        groupChooser.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//            }
+//        });
 
         return v;
     }
@@ -131,6 +148,16 @@ public class MessagerFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement MessagerFragment.Listener");
         }
+
+//        List<String> groupNameList = new ArrayList<>();
+//        groupList = new DB_Proxy(context).getAllGroups();
+//
+//        for (Group g : groupList) {
+//            groupNameList.add(g.getName());
+//        }
+//
+//        arrayAdapter = new ArrayAdapter<>(context,
+//                android.R.layout.simple_spinner_dropdown_item, groupNameList);
     }
 
     @Override

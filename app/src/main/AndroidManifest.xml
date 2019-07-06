@@ -16,6 +16,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".messaging.groups.GroupMessagerActivity"
+            android:label="@string/gmsgLabel"
+            android:parentActivityName=".MainActivity"/>
+
+        <activity android:name=".activities.settings.groups.GroupManagerActivity"
+            android:label="@string/gmaLabel"
+            android:parentActivityName=".activities.settings.SettingsActivity"/>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -26,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.ConversationViewerActivity" />
 
         <receiver
             android:name=".interceptor.Interceptor"
@@ -38,17 +47,18 @@
         </receiver>
 
         <activity
-            android:name=".LoaderActivity"
-            android:label="@string/laLabel"
-            android:parentActivityName=".SettingsActivity" />
-        <activity
-            android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="@string/setLabel" />
+            android:name=".activities.settings.SettingsActivity"
+            android:label="@string/setLabel"
+            android:parentActivityName=".MainActivity" />
+
         <activity
             android:name=".messaging.UI.MessagerActivity"
             android:label="@string/msgLabel" />
-        <activity android:name=".viewers.MessageViewActivity"></activity>
+
+        <activity
+            android:name=".viewers.MessageViewActivity"
+            android:label="@string/gmaLabel"
+            android:parentActivityName=".activities.settings.SettingsActivity" />
     </application>
 
 </manifest>

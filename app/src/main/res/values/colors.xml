@@ -16,6 +16,9 @@
     <color name="colorTextDark">@color/colorPrimaryDark</color>
     <color name="colorTextLight">@color/colorAccentLight</color>
 
+    <!-- colors for particular purposes -->
+    <color name="colorDeleteRed">#D04040</color>
+
     <!-- absolutes -->
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>

@@ -1,4 +1,4 @@
-package com.es3649.execsec;
+package com.es3649.execsec.messaging.groups;
 
 import android.Manifest;
 import android.accounts.AccountManager;
@@ -11,14 +11,23 @@ import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.es3649.execsec.R;
+import com.es3649.execsec.Secrets;
 import com.es3649.execsec.data.database.DB_Proxy;
-import com.es3649.execsec.data.model.Person;
+import com.es3649.execsec.data.model.Group;
+import com.es3649.execsec.messaging.Messager;
+import com.es3649.execsec.messaging.UI.MessagerActivity;
 import com.es3649.execsec.sheets.SheetsFetchTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -28,25 +37,18 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecovera
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.sheets.v4.SheetsScopes;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-/**
- * TODO we need to be able to change settings for:
- * TODO | Message response templates
- * TODO | Loading people
- * TODO | changing password
- */
-
-public class SettingsActivity extends AppCompatActivity
+public class GroupMessagerActivity extends AppCompatActivity
         implements EasyPermissions.PermissionCallbacks,
         SheetsFetchTask.Listener {
 
-    private static final String TAG = "SettingsActivity";
+    private static final String TAG = "GroupMessagerActivity";
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -58,54 +60,42 @@ public class SettingsActivity extends AppCompatActivity
 
     private GoogleAccountCredential mCredential;
 
+    private List<Group> gList;
+    private String range;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_group_messager);
 
-        findViewById(R.id.setLoadLinLay).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Intent i = new Intent(getApplicationContext(), LoaderActivity.class);
-//                startActivity(i);
-                Log.d(TAG, "Load Button Pressed");
-                loadDBFromSheets();
-            }
-        });
+        gList = new DB_Proxy(this).getAllGroups();
+        Log.d(TAG, String.format("Fetched %d strings", gList.size()));
 
-        // TODO make this switch into an AlertDialog
-        ((Switch)findViewById(R.id.setClearDBSafetySwitch)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    findViewById(R.id.setClearDBLinLay).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            DB_Proxy db = new DB_Proxy(getApplicationContext());
-                            int deletedRecords = db.deletePeople();
-                            Toast.makeText(getApplicationContext(),
-                                    String.format(Locale.getDefault(),
-                                            getString(R.string.setRecordsCleared),
-                                            deletedRecords),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
-                    findViewById(R.id.setClearDBLinLay).setOnClickListener(null);
-                }
-            }
-        });
+        // wire up the recycler
+        RecyclerView rcv = findViewById(R.id.gmsgRecycler);
+        rcv.setLayoutManager(new LinearLayoutManager(this));
+        rcv.setAdapter(new GroupListAdapter());
 
+        // get a credential
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
     }
 
-    //--------------------------------------//
-    //---------- DB Loading Logic ----------//
-    //--------------------------------------//
+    /**
+     * Does the dirty work of fetching the group then starting the activity.
+     * @param i the position of the group (in glist) to text
+     */
+    void textThisGroup(int i) {
+        range = gList.get(i).getRange();
+        getContactsFromSheet();
+    }
 
-    private void loadDBFromSheets() {
+    //-------------------------------------------//
+    //----------- Google Sheets Logic -----------//
+    //-------------------------------------------//
+
+    private void getContactsFromSheet() {
         Log.d(TAG, "Fetching sheets data");
         if (! isGooglePlayServicesAvailable()) {
             Log.d(TAG, "Play services unavailable");
@@ -119,28 +109,30 @@ public class SettingsActivity extends AppCompatActivity
         } else {
             Log.d(TAG, "Starting task");
             new SheetsFetchTask(mCredential, this)
-                    .execute(Secrets.CALLINGS_SHEET_ID, Secrets.NAMES_AND_NUMBERS_RANGE);
+                    .execute(Secrets.CALLINGS_SHEET_ID, range);
         }
     }
 
     @Override
     public void onSheetReady(List<List<Object>> sheet) {
-        DB_Proxy db = new DB_Proxy(this);
-        int counter = 0;
+        ArrayList<String> contacts = new ArrayList<>();
 
-        for (List row : sheet) {
-            try {
-                Person p = new Person((String)row.get(1), (String)row.get(0), (String)row.get(2));
-                db.stashPerson(p);
-                counter++;
-            } catch (Exception ex) {
-                Log.e(TAG, "Failed to add person: " + row.get(1) + "," + row.get(0), ex);
+        for (List<Object> row : sheet) {
+            for (Object val : row) {
+
+                try {
+                    contacts.add((String)val);
+                } catch (Exception ex) {
+                    Log.e(TAG, "Found a non string: "+((String) val.toString()));
+                }
+
             }
         }
 
-        Toast.makeText(this,
-                String.format(getString(R.string.setDBPopulated), counter, sheet.size()),
-                Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, MessagerActivity.class);
+        i.putExtra(MessagerActivity.ARG_RECIPIENTS, TextUtils.join(",",contacts));
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
     }
 
     @Override
@@ -157,7 +149,7 @@ public class SettingsActivity extends AppCompatActivity
     public void fixUserRecoverableAuthProblem(Exception e) {
         startActivityForResult(
                 ((UserRecoverableAuthIOException) e).getIntent(),
-                SettingsActivity.REQUEST_AUTHORIZATION);
+                GroupMessagerActivity.REQUEST_AUTHORIZATION);
     }
 
     private boolean isGooglePlayServicesAvailable() {
@@ -184,7 +176,7 @@ public class SettingsActivity extends AppCompatActivity
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
                 mCredential.setSelectedAccountName(accountName);
-                loadDBFromSheets();
+                getContactsFromSheet();
             } else {
                 startActivityForResult(
                         mCredential.newChooseAccountIntent(),
@@ -210,33 +202,35 @@ public class SettingsActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
-        case REQUEST_GOOGLE_PLAY_SERVICES:
-            if (resultCode != RESULT_OK) {
-                Toast.makeText(this, getString(R.string.setNeedGooglePlay), Toast.LENGTH_SHORT).show();
-            } else {
-                loadDBFromSheets();
-            }
-            break;
-        case REQUEST_ACCOUNT_PICKER:
-            if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
-                String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                if (accountName != null) {
-                    SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString(PREF_ACCOUNT_NAME, accountName);
-                    editor.apply();
-                    mCredential.setSelectedAccountName(accountName);
-                    loadDBFromSheets();
+            case REQUEST_GOOGLE_PLAY_SERVICES:
+                if (resultCode != RESULT_OK) {
+                    Toast.makeText(this, getString(R.string.setNeedGooglePlay), Toast.LENGTH_SHORT).show();
+                } else {
+                    getContactsFromSheet();
                 }
-            }
-            break;
-        case REQUEST_AUTHORIZATION:
-            if (resultCode == RESULT_OK) {
-                loadDBFromSheets();
-            }
-            break;
-        default:
-            throw new RuntimeException("Got an invalid activity result");
+                break;
+            case REQUEST_ACCOUNT_PICKER:
+                if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
+                    String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    if (accountName != null) {
+                        SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString(PREF_ACCOUNT_NAME, accountName);
+                        editor.apply();
+                        mCredential.setSelectedAccountName(accountName);
+                        getContactsFromSheet();
+                    }
+                }
+                break;
+
+            case REQUEST_AUTHORIZATION:
+                if (resultCode == RESULT_OK) {
+                    getContactsFromSheet();
+                }
+                break;
+
+            default:
+                throw new RuntimeException("Got an invalid activity result");
         }
     }
 
@@ -255,4 +249,64 @@ public class SettingsActivity extends AppCompatActivity
     public void onPermissionsDenied(int requestCode, List<String> perms) {}
 
 
+    //--------------------------------------------//
+    //---------- Adapter and Viewholder ----------//
+    //--------------------------------------------//
+
+    /**
+     * An adapter class for a list of groups to message
+     */
+    class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.StaticGroupViewHolder> {
+
+        GroupListAdapter() {}
+
+        @Override
+        public StaticGroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(
+                                    R.layout.viewholder_group_static, parent, false);
+
+            return new StaticGroupViewHolder(v);
+        }
+
+        @Override
+        public int getItemCount() {
+            return gList.size();
+        }
+
+        @Override
+        public void onBindViewHolder(StaticGroupViewHolder holder, int position) {
+            holder.bind(gList.get(position), position);
+        }
+
+        /**
+         * The viewholder for this recycler
+         */
+        class StaticGroupViewHolder extends RecyclerView.ViewHolder {
+
+            private Button submitButton;
+            private TextView nameTextView;
+            private TextView rangeTextView;
+
+
+            StaticGroupViewHolder(View v) {
+                super(v);
+
+                nameTextView = v.findViewById(R.id.sgmvhGroupName);
+                rangeTextView = v.findViewById(R.id.sgmvhGroupRange);
+                submitButton = v.findViewById(R.id.sgmvhButton);
+            }
+
+            void bind(Group g, final int pos) {
+                nameTextView.setText(g.getName());
+                rangeTextView.setText(g.getRange());
+
+                submitButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        textThisGroup(pos);
+                    }
+                });
+            }
+        }
+    }
 }

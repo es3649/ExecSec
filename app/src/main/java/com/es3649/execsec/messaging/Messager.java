@@ -15,7 +15,6 @@ import com.es3649.execsec.data.model.Person;
  *
  * Created by es3649 on 4/28/19.
  */
-
 public class Messager {
 
     public Messager(Context ctx) {
