@@ -2,6 +2,7 @@ package com.es3649.execsec.data.model;
 
 public class Group {
 
+    public static final int BLANK_ID = -1;
     private String name;
     private String range;
     // an internal ID for the database
@@ -10,7 +11,7 @@ public class Group {
     public Group(String name, String range) {
         this.name = name;
         this.range = range;
-        this.id = -1;
+        this.id = BLANK_ID;
     }
 
     public Group(String name, String range, long id) {

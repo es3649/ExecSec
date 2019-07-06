@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.es3649.execsec.R;
 import com.es3649.execsec.data.database.DB_Proxy;
@@ -27,10 +29,6 @@ public class GroupManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_manager);
 
-        // TODO a RecyclerView here probably, let's try to keep it small though.
-        //  ViewHolder: EditText for name of group, EditText for group range
-        //  Apply button to sync changes
-
         RecyclerView rcv = findViewById(R.id.gmaRecycler);
         rcv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -39,6 +37,12 @@ public class GroupManagerActivity extends AppCompatActivity {
         gma = new GroupManagerAdapter(gList, db);
         rcv.setAdapter(gma);
 
+        findViewById(R.id.gmaSaveButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveGroups();
+            }
+        });
     }
 
     @Override
@@ -81,19 +85,41 @@ public class GroupManagerActivity extends AppCompatActivity {
         super.onStop();
         Log.d(TAG, "Stopping...");
 
-        saveGroups();
+//        saveGroups();
     }
 
     private void saveGroups() {
         DB_Proxy db = new DB_Proxy(this);
 
         for (Group g : gma.getGroupList()) {
-            if (!g.empty()) {
-                db.updateGroups(g);
+
+            // TODO this is still spawning bogus groups
+            //  and the reordering gets jacked up on refresh after new groups are saved
+            if (g.empty()) {
+                if (g.getId() != Group.BLANK_ID) {
+                    // empty && id != BLANK delete
+                    Log.d(TAG, "Deleteing group");
+                    db.deleteGroup(g);
+                }
+                // if g empty and id == BLANK, then this is a useless group and we skip it
+
+            } else if (g.getId() == Group.BLANK_ID) {
+                // not empty and id == BLANK create, saving ID
+                db.stashGroup(g);
+                Log.d(TAG, "Stashing group");
+
             } else {
-                // this might cause a crash if the group has id = -1
-                db.deleteGroup(g);
+                // not empty and if != BLANK update
+                Log.d(TAG, "Updating group");
+                db.updateGroups(g);
+
             }
+//            Log.d(TAG, String.format("Storing group-- Name: '%s' Range: '%s'",
+//                        g.getName(), g.getRange()));
+//            db.updateGroups(g);
         }
+
+        Toast.makeText(this, R.string.gmaSaved, Toast.LENGTH_SHORT).show();
     }
 }
+

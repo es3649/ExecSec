@@ -4,9 +4,6 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO this should probably all just go in a grid layout
-          same as the Login fragment, which also needs to be implemented
-          The delete button can stay where it is, though -->
     <GridLayout
         android:id="@+id/sgmvhTextLay"
         android:columnCount="2"
@@ -15,7 +12,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/gmvhDeleteButton" >
+        app:layout_constraintEnd_toStartOf="@id/sgmvhButton" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,6 +26,7 @@
             android:id="@+id/sgmvhGroupName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
             app:layout_constraintStart_toEndOf="@id/gmvhTextLay"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/gmvhGroupRange"/>
@@ -45,14 +43,13 @@
             android:id="@+id/sgmvhGroupRange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
             app:layout_constraintStart_toEndOf="@id/sgmvhTextLay"
             app:layout_constraintTop_toBottomOf="@id/sgmvhGroupName"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </GridLayout>
 
-    <!-- this is a delete button -->
-    <!-- TODO this button is butt ugly tbh -->
     <Button
         android:id="@+id/sgmvhButton"
         android:layout_width="wrap_content"

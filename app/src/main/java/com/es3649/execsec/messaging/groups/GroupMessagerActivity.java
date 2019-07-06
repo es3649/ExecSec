@@ -69,6 +69,7 @@ public class GroupMessagerActivity extends AppCompatActivity
         setContentView(R.layout.activity_group_messager);
 
         gList = new DB_Proxy(this).getAllGroups();
+        Log.d(TAG, String.format("Fetched %d strings", gList.size()));
 
         // wire up the recycler
         RecyclerView rcv = findViewById(R.id.gmsgRecycler);
@@ -89,9 +90,6 @@ public class GroupMessagerActivity extends AppCompatActivity
         range = gList.get(i).getRange();
         getContactsFromSheet();
     }
-
-
-
 
     //-------------------------------------------//
     //----------- Google Sheets Logic -----------//
@@ -131,7 +129,7 @@ public class GroupMessagerActivity extends AppCompatActivity
             }
         }
 
-        Intent i = new Intent(this, Messager.class);
+        Intent i = new Intent(this, MessagerActivity.class);
         i.putExtra(MessagerActivity.ARG_RECIPIENTS, TextUtils.join(",",contacts));
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
@@ -258,7 +256,7 @@ public class GroupMessagerActivity extends AppCompatActivity
     /**
      * An adapter class for a list of groups to message
      */
-    private class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.StaticGroupViewHolder> {
+    class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.StaticGroupViewHolder> {
 
         GroupListAdapter() {}
 
@@ -272,7 +270,7 @@ public class GroupMessagerActivity extends AppCompatActivity
 
         @Override
         public int getItemCount() {
-            return 0;
+            return gList.size();
         }
 
         @Override
@@ -283,7 +281,7 @@ public class GroupMessagerActivity extends AppCompatActivity
         /**
          * The viewholder for this recycler
          */
-        private class StaticGroupViewHolder extends RecyclerView.ViewHolder {
+        class StaticGroupViewHolder extends RecyclerView.ViewHolder {
 
             private Button submitButton;
             private TextView nameTextView;

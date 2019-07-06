@@ -79,6 +79,7 @@
 
     <string name="gmaMenuSave">Save</string>
     <string name="gmaMenuNew">New</string>
+    <string name="gmaSaved">Saved!</string>
 
 
     <!-- GroupManagerViewHolder strings (Prefix: 'gmvh' ) -->

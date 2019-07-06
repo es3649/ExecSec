@@ -32,7 +32,7 @@ class EditableGroupViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public void bind(Group g, final int pos) {
+    void bind(Group g, final int pos) {
         name.setText(g.getName());
         range.setText(g.getRange());
         this.group = g;
